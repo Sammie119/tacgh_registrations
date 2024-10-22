@@ -1,0 +1,84 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,300italic,400,400italic,500,500italic,600);
+body{
+    font-family: 'Raleway', sans-serif;
+}
+#run-search{
+    margin-top: 70px;
+    /*background: rgba(0,0,0,0.3);*/
+    padding: 30px 30px;
+}
+#run-search input{
+	height: 45px;
+    font-size: 20px;
+    padding: 10px;
+}
+#run-search button{
+	font-size: 16px;
+    height: 45px;
+}
+#run-search .help-block {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #ff5b5b !important;
+    font-style: oblique !important;
+}
+.select2-container--default .select2-selection--single{
+	border-radius: 0px !important;
+}
+.select2-container .select2-selection--single{
+    height: 35px !important;
+}
+.box{
+	border-top: 2px solid #3c8dbc !important;
+	border-radius: 0px !important;
+}
+.sweet-alert{
+    /*background-color: rgba(255,255,255,0.8) !important;*/
+    border-radius: 0px !important;
+}
+.sweet-alert button{
+	border-radius: 0px !important;
+}
+.bg-img{
+    background:url(../img/wallpaper.jpg)no-repeat fixed center;
+    /*-webkit-filter: grayscale(80%); /* Safari 6.0 - 9.0 */
+    /*filter: grayscale(100%);*/
+    background-size: cover;
+    /*filter:blur(5px);*/
+}
+.table-bordered>tbody>tr>td.rooms-col{
+    /*cursor: pointer;*/
+    padding: none !important;
+    text-align: center;
+}
+td.rooms-col > a{
+    width: 100%;
+    padding: 5px;
+    color:#fff !important;
+    display: block;
+}
+span.ccode{
+    width: 10px;
+    margin-left: 5px;
+    padding: 0px 10px;
+    height: 10px;
+}
+span.legend{
+    margin-left: 5px;
+    margin-right: 10px;
+}
+.for-rooms >table.table{
+    width: auto !important;
+}
+.ireport .icheckbox_flat-green{
+    margin-right: 10px;
+}
+.ireport label{
+    margin-bottom: 15px;
+}
+.modal-loader{
+    padding: 50px 0;
+    font-size: 10rem;
+    text-align: center;
+}

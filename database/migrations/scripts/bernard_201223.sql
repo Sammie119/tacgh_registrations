@@ -1,0 +1,3 @@
+ALTER TABLE `registrants` ADD `need_counseling` INT NULL AFTER `campfee_id`, ADD `area_of_counseling` INT NULL AFTER `need_counseling`;
+ALTER TABLE `registrants_staging` ADD `need_counseling` INT NULL AFTER `campfee_id`, ADD `area_of_counseling` INT NULL AFTER `need_counseling`;
+ALTER TABLE `records` ADD `need_counseling` INT NULL AFTER `campfee_id`, ADD `area_of_counseling` INT NULL AFTER `need_counseling`;

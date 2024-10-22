@@ -1,0 +1,291 @@
+/*custom font*/
+/*@import url(http://fonts.googleapis.com/css?family=Montserrat);*/
+
+/*basic reset*/
+* {margin: 0; padding: 0;}
+
+html {
+    /*height: 100%;*/
+    /*Image only BG fallback*/
+
+    /*background = gradient + image pattern combo*/
+    /*background:
+        linear-gradient(rgba(196, 102, 0, 0.6), rgba(155, 89, 182, 0.6));*/
+    /* linear-gradient(rgba(0, 0, 0, 0.1),rgba(16, 17, 38, 0.1),rgba(0, 193, 18, 0.2));*/
+}
+
+body {
+    font-family: Calibri, Arial, Helevtica, Verdana, san-serif;
+}
+#menu-content {  max-width: 1050px; margin: auto !important;   height: 155px;position:relative;min-width:875px; }
+.heading { padding-left:80px;  font-family: Calibri; font-size: 24pt;  text-align: center;  max-width: 960px;float: left; display: table; margin-top: 30px;min-width:875px; }
+#sp-main-menu{vertical-align:bottom; float:right; position:relative;margin-right:5px;margin-top:30px;text-transform:uppercase;font-weight:normal}
+.parent-box {  max-width: 1050px; margin-left: auto; margin-right: auto; padding: 20px; margin-top: 2px; position:relative; -webkit-box-shadow: 2px 2px 5px 0px  #616161;-moz-box-shadow: 2px 2px 5px 0px #616161;  box-shadow: 2px 2px 5px 0px #616161; height:auto; }
+div#navigation {   /*clear:both;*/position:absolute;bottom:3px;right:10px;}
+#sp-header-wrapper{margin:0 !important;padding:0!important;background-image:url(../img/tp-bg.png);background-size:cover;background-color:#4169e1;min-height: 102px;height:auto;width:100%;min-width:875px;}
+#sp-menu-wrapper{height:85px;width:100%;margin:0;background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(248,248,248,1) 50%,rgba(243,243,243,1) 100%);}
+
+.header-content {max-width:1050px;margin-left: auto;margin-right:auto;width:auto;margin-left:auto;margin-right:auto;height:inherit}
+.header-contact{display:inline-block;float:left;margin-top:25px;}
+.header-caption{display:inline-block;float:left;color:white;margin-top:15px;font-size:30px;text-align:center;}
+.header-contact a{text-decoration:none;}
+#maincontent{ overflow:auto; min-width:875px;max-height:768px;}
+#logo { float:left; background: url(../img/aposa_logo_trans.png) no-repeat; width: 140px;  height: 80px;  vertical-align: middle !important; margin-top:20px }
+.header-caption{margin-top:25px;text-align:center;margin-left:40px}
+li.menu-list{padding:10px;font-size:18px}
+#sp-menu-wrapper input[type=checkbox]{ display: none;}
+
+/*******************************General Menu List Style***************************************/
+.sp-menu{display:inline;list-style-type: none;margin: 0;padding: 0;float:left;margin-bottom:0px}
+li.menu-list{display: inline;float:left;color:white;}
+.menu-list a{display:block;height: 30px;text-align: center;line-height: 30px;font-family: Calibri, sans-serif, Helvetica, Arial,"Helvetica Neue";	color: #000;text-decoration: none;pointer-events:auto}
+.menu-list a:hover{color:#96c052/*#3ca421*/}
+
+/*form styles*/
+#msform {
+    width: 875px;
+    margin: auto;
+    text-align: center;
+    /*position: relative;*/
+    /*box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);*/
+    padding-top: 0;
+}
+.existUserForm{width:60%;border:2px solid;margin-left:auto;margin-right:auto}
+#msform fieldset {
+    background: white;
+    border: 0 none;
+    border-radius: 3px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    width: 100%;
+    /*z-index:-1;*/
+    /*margin: 0 10%;*/
+    min-width: 0;
+    /*stacking fieldsets above each other*/
+    position: relative;
+}
+/*Hide all except first fieldset*/
+/*#msform fieldset:not(:first-of-type) {
+	display: none;
+}*/
+/*inputs*/
+/*#msform input, #msform textarea,*/ #msform .inputControl{
+                                         padding: 8px;
+                                         border: 1px solid #ccc;
+                                         margin-bottom: 10px;
+                                         /*box-sizing: border-box;*/
+                                         font-family:Calibri, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                         color: #2C3E50;
+                                         font-size: 10pt;
+                                         /*-moz-border-radius:10px 10px 10px 10px;
+                                         -webkit-border-radius:10px 10px 10px 10px;
+                                          border-radius:10px 10px 10px 10px;*/
+                                         width:60%;
+                                         vertical-align:middle;
+                                         box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+                                         background: -webkit-gradient(linear, left top, left 25, from(#000000),  to(#FFFFFF));
+                                         background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF));
+                                     }
+
+#msform .xnext,#msform .submit
+{
+    background:#7cb916; /*#27AE60;*/color: white;
+}
+#msform .previous
+{
+    background:#c8c8c8;color: black;
+}
+#msform .action-button:hover, #msform .action-button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+}
+
+/*headings*/
+.fs-title-home,.fs-title {
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #2C3E50;
+    margin-bottom: 10px;
+    width:52%;margin-left:auto;margin-right:auto;
+    padding:10px;
+}
+.fs-title-home:after,.fs-title:after{
+    content:"";
+    height: 1px;
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%,#7cb916 50%,rgba(0,0,0,0) 100%);
+    display: block;
+    margin-top: 10px;
+}
+.fs-subtitle {
+    font-weight: normal;
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 20px;
+}
+.fs-title-home{
+    font-size:36px;
+
+    font-weight:lighter;
+}
+/*progressbar*/
+#progressbar {
+    margin:30px;
+    overflow: hidden;
+
+    /*CSS counters to number the steps*/
+    counter-reset: step;
+}
+/*List item extension is controlled in here (width,color,text-transform and others)*/
+#progressbar li {
+    list-style-type: none;
+    color: black;
+    text-transform: capitalize;
+    font-size: 15px;
+    width: 19%;
+    float: left;
+    position: relative;
+    cursor:pointer;
+}
+#progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 30px;
+    line-height: 30px;
+    display: block;
+    font-size: 15px;
+    font-weight:bold;
+    color: #333;
+    background: white;
+    border:2px solid gray;
+    border-radius: 16px;
+    margin: 0 auto 5px auto;
+}
+/*progressbar connectors*/
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: gray;
+    position: absolute;
+    left: -50%;
+    top: 14px;
+    z-index: -1; /*put it behind the numbers*/
+}
+#progressbar li:first-child:after {
+    /*connector not needed before the first step*/
+    content: none;
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before, #progressbar li.active:after{
+    background:#7cb916; /*#27AE60;*/
+    color: white;
+    border:none;
+}
+
+
+/*dividing form into blocks to group controls*/
+.controlBlock{
+    display: inline-block;
+    position: relative;
+    clear:both;
+    width: 45%;
+    padding: 5px;
+    vertical-align:top;
+    margin:5px;
+}
+.controlBlock > *,.controlBlockA > *{
+    display: block;
+}
+
+.controlBlockA{
+    display: inline-block;
+    position: relative;
+    clear:both;
+    width: 50%;
+    padding: 5px;
+    vertical-align:top;
+    /*margin:5px;*/
+}
+/*using linear gradient to draw border line under each control block*/
+.controlBlock:before {
+    content: "";
+    height: 1px;
+    background: -webkit-linear-gradient(left, rgba(147,147,147,1) 40%,rgba(0,0,0,0) 100%);
+    background: linear-gradient(to right, rgba(147,147,147,1) 40%,rgba(0,0,0,0) 100%);
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+/*Class to style long message text like Scheme Enrolment Declaration message text*/
+.infoText
+{
+    text-align:justify;width:92%;color:#4f0505;margin-left:auto;margin-right:auto;
+}
+/*style to align two input controls on one line in a control block*/
+.control-inline,.control-inlineA{display:inline-block;width:50%;margin:1px}
+.control-inline{float:left}
+/* Form Sub titles with background color: Contact Details,Employment Details, Declaration*/
+.formsubtitles{	background-color:#c8c8c8;font-weight:bold;color:black;text-align:left;text-transform:capitalize;padding: 10px;width:92%;margin-left:auto;margin-right:auto}
+
+/*List Items styles*/
+.listItems td
+{
+    display: table-cell;text-align:left;
+}
+.listItems input[type="radio"],.listItems input[type="checkbox"]
+{
+    float: left;
+    margin-top:2px;
+    margin-right:5px;
+}
+
+/*Text Transform Class*/
+.txtTransform{text-transform:uppercase}
+
+
+/*Class to hide/show fieldset*/
+.hideDiv{display:none}
+.showDiv{display:block;}
+
+.inputValidationA,.inputValidation,txtred{display:inline-block;color:red;width:5px;text-align:center;margin-top:12px;}
+.inputValidationA{margin-top:-20px;float:right;margin-right:10px;}
+.gridheader{	height:25px;	color:#fff;	background-color:#7cb916;}
+
+.benButton{color:white;background:#7cb916;font-size:18pt;cursor:pointer;width:30px;border:0;padding:2px}
+
+.modal{    position: fixed;    top: 0;    left: 0;    background-color: black;    z-index: 99;     filter: alpha(opacity=80);     opacity: 0.8; min-height: 100%;    width: 100%;}
+.premodal{    position: fixed;    top: 0;    left: 0;    background-color: white;    z-index: 99;       filter: alpha(opacity=10);   opacity: 0.1;  min-height: 100%;    width: 100%;}
+.loading{	font-family: Calibri;	font-size: 10pt;	border: 1px solid #D8D8D8;	width: 230px;	height: 100px;	display: none;	position: fixed;	background-color: White;	filter: alpha(opacity=50);	z-index: 999;	-moz-border-radius: 8px;	-webkit-border-radius: 8px;	border-radius: 8px;}
+.preloading{ background-color:rgba(255, 255, 255, 0.90);	border: 2px solid #fff; padding:10px 10px 6px 10px;	display: none;	position: fixed;	z-index: 10103;	-moz-border-radius: 40px;	-webkit-border-radius: 40px;	border-radius: 40px;}
+alert {width:450px; min-height:100px;	z-index:10103; top:50%; left:50%; 	border:1px Solid #cccccc; 	position:fixed; background-color:#D8D8D8; 	float:left;    margin-top:-180px;  margin-left:-225px; 	padding:0 0 0 0; overflow:hidden; 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; border:2px solid teal}
+.alertmsg { padding-left:45px; padding-top:5px; min-height:40px; padding-bottom:5px;}
+
+
+.modalPopup {  	width:850px; min-height:250px; max-height:450px;	z-index:10102; top:50%; left:50%; 	border:1px Solid #cccccc; 	position:fixed; background-color:#f6f6f6; 	float:left;    margin-top:-300px;  margin-left:-425px; 	padding:0 0 0 0; overflow:hidden; 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
+.modalPopupLarge{  	width:1000px; min-height:450px;	z-index:10102; top:50%; left:50%; 	border:1px Solid #cccccc; 	position:fixed; background-color:#f6f6f6; 	float:left;    margin-top:-300px;  margin-left:-500px; 	padding:0 0 0 0; overflow:hidden; 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
+.modalPopupAdjust{ min-width:750px; 	max-width:1000px; min-height:450px;	z-index:10102; top:50%; left:50%; 	border:1px Solid #cccccc; 	position:fixed; background-color:#f6f6f6; 	float:left;    margin-top:-300px;  margin-left:-500px; 	padding:0 0 0 0; overflow:hidden; 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
+.modalPaswordReset {  	width:450px; min-height:200px;	z-index:10102; top:50%; left:50%; 	border:1px Solid #cccccc; 	position:fixed; background-color:#f6f6f6; 	float:left;    margin-top:-200px;  margin-left:-225px; 	padding:0 0 0 0; overflow:hidden; 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
+.mainErrDisplay {  	width:450px; min-height:100px;	z-index:10103; top:50%; left:50%; 	border:1px Solid #cccccc; 	position:fixed; background-color:#f6f6f6; 	float:left;    margin-top:-180px;  margin-left:-225px; 	padding:0 0 0 0; overflow:hidden; 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
+.colorPaletContainer { width:350px; min-height:100px;	z-index:5000; top:25px; right:0; 	border:1px Solid #cccccc; 	position:fixed; background-color:#f6f6f6; 	float:left;  padding:0 0 0 0; overflow:hidden; -webkit-border-bottom-right-radius: 10px;	border-bottom-right-radius: 10px;	 -webkit-border-bottom-left-radius: 10px;	border-bottom-left-radius: 10px;}
+.web_dialog_overlay { 	position: fixed; 	top: 0; right: 0; bottom: 0; left: 0; 	height: 100%; width: 100%; 	margin: 0; padding: 0; 	background: #000000; opacity: .25; filter: alpha(opacity=15); 	 	z-index: 10100; }
+.dialogtitle{	text-indent: 30px;	font-weight:bold;	padding-top:10px;}
+.popuptitlebar{	background-color:#7cb916;	text-indent: 20px;	color:#fff;	font-weight:bold;	font-size:12pt;	padding-top:8px; padding-right:10px; height:30px;font-family:Calibri, Arial, Verdana;	text-transform:uppercase;}
+
+/*Optional fields class*/
+.optionalA:after,.optional:after,.optionalB:after{
+    content:"Optional";
+    height: 1px;
+    font-size:9pt;
+    margin-right:15px;
+}
+.optional:after {
+    float:right;display:block;
+}
+.optionalA:after{
+    float:left;display:block;margin-top:-10px;position:relative;
+}
+.optionalB:after{
+    float:left;display:block;top:40px !important;position:absolute;
+}
+/*.optional{display:block;border:1px solid red}*/
