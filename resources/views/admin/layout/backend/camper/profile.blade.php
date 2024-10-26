@@ -28,9 +28,9 @@
         <div class="box box-primary">
           <div class="box-body box-profile">
             @if($applicant->region->FullName == "Male")
-            <img class="profile-user-img img-responsive img-circle" src="{{ asset('img/male-avatar.jpg') }}" alt="User profile picture">
+            <img class="profile-user-img img-responsive img-circle" src="{{ App::isLocal() ? asset('img/male-avatar.jpg') : asset('public/img/male-avatar.jpg') }}" alt="User profile picture">
             @else
-            <img class="profile-user-img img-responsive img-circle" src="{{ asset('img/female-avatar.jpg') }}" alt="User profile picture">
+            <img class="profile-user-img img-responsive img-circle" src="{{ App::isLocal() ? asset('img/female-avatar.jpg') : asset('public/img/female-avatar.jpg') }}" alt="User profile picture">
             @endif
 
             <h3 class="profile-username text-center">{{ $applicant->surname." ".$applicant->firstname }}</h3>

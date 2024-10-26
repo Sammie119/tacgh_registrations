@@ -260,7 +260,7 @@
                                 <div class="item-b">
                                     <div class="row" style="padding:2px;display: flex;justify-content:center;align-items: center;flex-flow: row wrap;">
                                         <div class="col-lg-2 clientlogo" style="display:inline-block; width:40px;height:35px; align: center;vertical-align: middle;" >
-                                            <img src="{{asset('img/aposa-main_edit.png')}}" style="width:40px;height:35px;"/></div>
+                                            <img src="{{App::isLocal() ? asset('img/aposa-main_edit.png') : asset('public/img/aposa-main_edit.png') }}" style="width:40px;height:35px;"/></div>
                                         <div class="col-lg-8" style=" display: flex;justify-content: center;;vertical-align: middle;text-transform: uppercase;font-size: 12px;font-weight: bolder">
                                             <div class="item-c">
                                                 <div style="text-align: center;font-size: 12pt;font-weight: bolder">
@@ -358,7 +358,7 @@
                 <div class="id-box" style="margi: auto; width: 310px; height: 204px; padding: 5px;background: #ff0000;">
                     <div class="id-content"style="background-color: #fff; width: 100%; height: 100%; position: relative;">
                         <div class="id-header" style="padding:4px;position: relative;height: 40px;background: #009bf4;">
-                            <img src="{{asset('img/aposa-main_edit.png')}}" style="width:60px;height:auto;position: absolute;"/>
+                            <img src="{{App::isLocal() ? asset('img/aposa-main_edit.png') : asset('public/img/aposa-main_edit.png') }}" style="width:60px;height:auto;position: absolute;"/>
                             <h6 style="position: absolute;right: 7px; margin: 0;font-size: 12px; text-transform: uppercase;
                             font-family: 'Times New Roman';margin-top: 5px; color: #fff;">
                                 The Apostolic Church-Ghana,<br/>Students and Associates (APOSA)

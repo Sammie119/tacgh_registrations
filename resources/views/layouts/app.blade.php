@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>APOSA Campmeeting {{date('Y')}}</title>
-    <link rel="icon" href="{{ asset('img/aposa-favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ App::isLocal() ? asset('img/aposa-favicon.png') : asset('public/img/aposa-favicon.png') }}" type="image/x-icon">
     <!-- Styles -->
     {{--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">--}}
     <link rel="stylesheet" href="{{asset('css/jquery-ui.min.css')}}">

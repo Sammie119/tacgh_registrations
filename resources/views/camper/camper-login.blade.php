@@ -11,7 +11,7 @@
             <div class="row align-items-center text-center">
                 <div class="col-md-12 mb-3">
                     <div class="form-header text-center mb-3">
-                        <a href="{{route('landing')}}"><img src="{{asset('img/aposa-main_edit.png')}}" alt="" class="sign-up-icon" style="width: 250px;"></a>
+                        <a href="{{route('landing')}}"><img src="{{App::isLocal() ? asset('img/aposa-main_edit.png') : asset('public/img/aposa-main_edit.png')}}" alt="" class="sign-up-icon" style="width: 250px;"></a>
                     </div>
                     {{--                    <h4>Camper Portal</h4>--}}
                 </div>

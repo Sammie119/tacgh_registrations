@@ -90,7 +90,7 @@
                                                 <div class="card-content">
                                                     <div class="id-content"style="background-color: #fff; width: 100%; height: 100%; position: relative;">
                                                         <div class="id-header" style="padding:4px;position: relative;height: 40px;background: #009bf4;">
-                                                            <img src="{{asset('img/aposa-main_edit.png')}}" style="width:60px;height:auto;position: absolute;"/>
+                                                            <img src="{{App::isLocal() ? asset('img/aposa-main_edit.png') : asset('public/img/aposa-main_edit.png')}}" style="width:60px;height:auto;position: absolute;"/>
                                                             <h6 style="position: absolute;right: 7px; margin: 0;font-size: 13px; text-transform: uppercase;
                             font-family: 'Times New Roman';margin-top: 3px; color: #fff;">
                                                                 The Apostolic Church-Ghana,<br/>Students and Associates (APOSA)
@@ -130,7 +130,7 @@
                                             <div class="card-content">
                                                 <div class="id-content"style="background-color: #fff; width: 100%; height: 100%; position: relative;">
                                                     <div class="id-header" style="padding:4px;position: relative;height: 40px;background: #009bf4;">
-                                                        <img src="{{asset('img/aposa-main_edit.png')}}" style="width:60px;height:auto;position: absolute;"/>
+                                                        <img src="{{App::isLocal() ? asset('img/aposa-main_edit.png') : asset('public/img/aposa-main_edit.png') }}" style="width:60px;height:auto;position: absolute;"/>
                                                         <h6 style="position: absolute;right: 7px; margin: 0;font-size: 13px; text-transform: uppercase;
                     font-family: 'Times New Roman';margin-top: 3px; color: #fff;">
                                                             The Apostolic Church-Ghana,<br/>Students and Associates (APOSA)

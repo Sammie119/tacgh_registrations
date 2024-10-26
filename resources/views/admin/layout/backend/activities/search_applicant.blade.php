@@ -36,7 +36,7 @@
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="{{ asset('img/avatar.jpg') }}" alt="User profile picture">
+              <img class="profile-user-img img-responsive img-circle" src="{{ App::isLocal() ? asset('img/avatar.jpg') : asset('public/img/avatar.jpg') }}" alt="User profile picture">
 
               <h3 class="profile-username text-center">{{ $applicant->surname." ".$applicant->firstname }}</h3>
 

@@ -19,7 +19,7 @@
     <section style="margin-top: 50px;">
         <div class="container">
             <div style="text-align: center; margin-bottom: 30px">
-                <img src="{{asset('img/aposa-main_edit.png')}}" style="text-align: center;max-width:200px;"/>
+                <img src="{{ App::isLocal() ? asset('img/aposa-main_edit.png') : asset('public/img/aposa-main_edit.png')}}" style="text-align: center;max-width:200px;"/>
                 <p style="text-align:right">
                     <a href="{{route('registrant.camper_logout')}}" class="btn btn-flat btn-default">
                         Log out

@@ -45,7 +45,7 @@
 		</div>
 		<div class="form-inner">
 			<div class="form-header text-center mb-5">
-				<img src="{{asset('img/aposa-main_edit.png')}}" alt="" class="sign-up-icon" style="width: 150px;">
+				<img src="{{App::isLocal() ? asset('img/aposa-main_edit.png') : asset('public/img/aposa-main_edit.png')}}" alt="" class="sign-up-icon" style="width: 150px;">
 			</div>
 
 			<div class="border border-primary p-3 border-opacity-25 mb-3">

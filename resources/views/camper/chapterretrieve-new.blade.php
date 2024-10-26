@@ -321,7 +321,7 @@
         <div class="container" styl="border:1px solid teal;overflow: auto;height: 90%;">
             <div style="display:inline-block;width:100%;">
                 <div style="margin:0 auto;display:inline-block;">
-                    <img src="{{asset('img/aposa-main_edit.png')}}" style="margin:0 auto;;max-width:200px"/>
+                    <img src="{{ App::isLocal() ? asset('img/aposa-main_edit.png') : asset('public/img/aposa-main_edit.png')}}" style="margin:0 auto;;max-width:200px"/>
                 </div>
                 <div style="margin: 1rem 0;display: inline-block;float:right">
                     <a href="{{route('registrant.camper_logout')}}" class="btn btn-flat btn-danger">

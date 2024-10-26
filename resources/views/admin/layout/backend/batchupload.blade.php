@@ -28,7 +28,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-5 col-xs-4 col-xs-offset-4">
-                    <a href="{{ url('/') }}" title="Go to Homepage"><img src="{{ asset('img/aposa-main_edit.png') }}" alt="APOSA logo" class="img-responsive sm-mg-b"></a>
+                    <a href="{{ url('/') }}" title="Go to Homepage"><img src="{{ App::isLocal() ? asset('img/aposa-main_edit.png') : asset('public/img/aposa-main_edit.png') }}" alt="APOSA logo" class="img-responsive sm-mg-b"></a>
                 </div>
             </div>
             @if(!isset($batches))

@@ -10,7 +10,7 @@
 
   <title>APOSA Campmeeting {{date('Y')}}</title>
   @yield('beforeAllCss')
-  <link rel="icon" href="{{ asset('img/aposa-favicon.png') }}" type="image/x-icon">
+  <link rel="icon" href="{{ App::isLocal() ? asset('img/aposa-favicon.png') : asset('public/img/aposa-favicon.png') }}" type="image/x-icon">
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
   <!-- Font Awesome -->
@@ -99,7 +99,7 @@
   <aside class="main-sidebar">
     <section class="sidebar">
       <div class="user-panel">
-        <div class="pull-left image" style="height:126px;width:inherit;background:url({{asset('img/aposa-main_edit.png')}}) no-repeat;background-size: 100%;">
+        <div class="pull-left image" style="height:126px;width:inherit;background:url({{App::isLocal() ? asset('img/aposa-main_edit.png') : asset('public/img/aposa-main_edit.png') }}) no-repeat;background-size: 100%;">
           {{--<img src="{{ asset('img/aposa-main_edit.png') }}"  alt="The Apostolic Church" style="">--}}
         </div>
       </div>
