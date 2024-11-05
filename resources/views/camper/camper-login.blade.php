@@ -75,7 +75,7 @@
     </div>
 @endsection
 @section('footer-scripts')
-    <script src="{{ asset('js/login/main.js') }}"></script>
+{{--    <script src="{{ asset('js/login/main.js') }}"></script>--}}
     <script>
         $(function() {
             'use strict';
