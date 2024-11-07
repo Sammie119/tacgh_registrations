@@ -20,10 +20,8 @@ class EmailDispatchMiddleware
     {
         $job = DB::table('jobs')->count();
 
-        dd($job);
-
         if($job >= 1){
-            Artisan::call('schedule:run');
+            Artisan::call('queue:work --stop-when-empty');
         }
 
         return $next($request);
