@@ -179,7 +179,6 @@ class BatchRegistrationController extends Controller
 
     public function importExcel(Request $request)
     {
-
         if(key_exists('import_file',$request->all())){
             $filename = $_FILES['import_file']['name'];
             $ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -218,16 +217,18 @@ class BatchRegistrationController extends Controller
                         'campercat_id' => $value["camper"],
                         'agdlang_id' => $value["agd_language"],
                         'agdleader_id' => $value["agd_leader"],
-                        'campfee_id' => $value["applicable_camp_fee"]
+                        'campfee_id' => $value["applicable_camp_fee"],
+                        'apngrouping' => $value["apngrouping"]
                     ];
                 }
-
+//                dd($batches);
                 if(!empty($batches) && (count($batches)>1)){
                     // Store the excel data in session...
                     session(['uploaddata' => $batches]);
 //                    session()->forget('uploaddata');//remove from session
                     $area = LookupCode::RetrieveLookups(11);
                     if($request['type']==1){
+//                        dd($batches);
                         return view('admin.layout.backend.batchupload',compact('batches','region','area'));
                     }
                     else{
@@ -439,7 +440,6 @@ class BatchRegistrationController extends Controller
     public function batchregister(Request $request)
     {
         try{
-
             $this->validate($request,[
                 'chapter'=>'required',
                 'area'=>'required',
@@ -468,7 +468,6 @@ class BatchRegistrationController extends Controller
                     ]);
 
                     $batchno = Batches::find($batch->id)->batch_no;//BatchRegistration::batchnumber(5)."-".$date->getTimestamp();
-
                 }
 
                 //map all dropdowns with appropriate system dropdown value
@@ -477,18 +476,19 @@ class BatchRegistrationController extends Controller
                     $camper_cat_id = $this->lookupkey($lookups,"FullName",$value['campercat_id']);
 
                     $camper_fee = findItemsInCollection($fees,$camper_cat_id,$value['campfee_id'])->first();
-
-                    if(     is_null($this->lookupkey($lookups,"FullName",$value['maritalstatus_id']))
-                            || is_null($this->lookupkey($lookups,"FullName",$value['gender_id']))
-                            || is_null($this->lookupkey($lookups,"FullName",$value['officechurch_id']))
-                            || is_null($this->lookupkey($lookups,"FullName",$value['agdlang_id']))
-                            || is_null($this->lookupkey($lookups,"FullName",$value['campercat_id']))
-                            || is_null($camper_fee) || empty($camper_fee)
+//                    dd($camper_fee);
+                    if(is_null($this->lookupkey($lookups,"FullName",$value['maritalstatus_id']))
+                        || is_null($this->lookupkey($lookups,"FullName",$value['gender_id']))
+                        || is_null($this->lookupkey($lookups,"FullName",$value['officechurch_id']))
+                        || is_null($this->lookupkey($lookups,"FullName",$value['agdlang_id']))
+                        || is_null($this->lookupkey($lookups,"FullName",$value['campercat_id']))
+                        || is_null($this->lookupkey($lookups,"FullName",$value['apngrouping']))
+                        || is_null($camper_fee) || empty($camper_fee)
                     )
                     {
                         alert()->error("Sorry",'Please fill the excel you downloaded and upload same. Also check all selected dropdowns to be sure they are correct')->persistent('Close');
 
-                        return redirect()->back()->withInput();
+                        return back()->withInput();
                     }
                     else{
 
@@ -498,6 +498,7 @@ class BatchRegistrationController extends Controller
                         $value['agdlang_id'] = $this->lookupkey($lookups,"FullName",$value['agdlang_id']);
                         $value['agdleader_id'] = $this->lookupkey($lookups,"FullName",$value['agdleader_id']);
                         $value['campercat_id'] = $this->lookupkey($lookups,"FullName",$value['campercat_id']);
+                        $value['apngrouping'] = $this->lookupkey($lookups,"FullName",$value['apngrouping']);
                         $value['campfee_id'] = $camper_fee->id;
 //                        $value['specialaccom_id'] = $this->lookupkey($lookups,"FullName",$value['specialaccom_id']);
                         $value['region_id']=$request['region'];
@@ -515,9 +516,7 @@ class BatchRegistrationController extends Controller
                         $arr2[] = $value;
                     }
 
-
                 }
-
 
                 if(isset($request['hidBatchNo'])){
 
@@ -917,6 +916,7 @@ class BatchRegistrationController extends Controller
         $SpecialAccomodation = LookupCode::RetrieveLookups(9);
         $area = LookupCode::RetrieveLookups(11);
         $areaOfCounseling = LookupCode::RetrieveLookups(17);
+        $apngrouping = LookupCode::RetrieveLookups(19);
 
         $rows = 2;
         if (isset($request)){
@@ -928,7 +928,7 @@ class BatchRegistrationController extends Controller
         }
         return view('camper.table-batch',compact('rows','gender','yesno','maritalstatus','region',
             'OfficeHeldInChurch','Camper','AGDLanguage','CampApplicableFee','SpecialAccomodation','area','areaOfCounseling',
-            'total_female_rooms_left','total_male_rooms_left'));
+            'total_female_rooms_left','total_male_rooms_left', 'apngrouping'));
     }
 
     /**
@@ -1029,6 +1029,7 @@ class BatchRegistrationController extends Controller
                 $rec['batch_no'] = $batch->batch_no;
                 $rec['ambassadorname']=$request['ambassadorname'];
                 $rec['ambassadorphone']=$request['ambassadorphone'];
+                $rec['apngrouping']=$request['apngrouping'];
                 $rec['created_at'] =  \Carbon\Carbon::now();
                 $rec['updated_at'] = \Carbon\Carbon::now();
                 $batch_upload_list[]  = $rec;
@@ -1067,7 +1068,7 @@ class BatchRegistrationController extends Controller
             ]);
 
             $this->notifySMS($request['ambassadorphone'],
-                'Congrats '.$request['ambassadorname'].', registration was succesful. Registration is incomplete until authorized at camp. Batch #: '.$batch->batch_no.' and login token: '.$token,
+                'Congrats '.$request['ambassadorname'].', registration was successful. Registration is incomplete until authorized at camp. Batch #: '.$batch->batch_no.' and login token: '.$token,
                 '1234');
 
             alert()->success('Campers have been added successfully! Batch #: '.$batch->batch_no.'. A token will be sent to the Ambassaddor phone number.','Success')->persistent('Close');

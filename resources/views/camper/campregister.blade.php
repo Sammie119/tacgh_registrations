@@ -216,6 +216,10 @@
                                     {!! Form::label('areaOfCounseling','Which area would you need counseling?:',['class'=>'form-label']) !!}
                                     {!! Form::select('areaOfCounseling',$areaOfCounseling->prepend('Choose...',''),null,['class'=>'form-select']) !!}
                                 </div>
+                                <div class="col-md-3 {{ $errors->has('apngrouping') ? ' has-error' : '' }}" style="margin-top:10px">
+                                    {!! Form::label('apngrouping','APN Breakout Session Grouping?',['class'=>'form-label required']) !!}
+                                    {!! Form::select('apngrouping',$apngrouping->prepend('Choose...',''),null,['class'=>'form-select','required']) !!}
+                                </div>
                             </div>
                             <div class="col-md-12 mt-3">
                                 <p>

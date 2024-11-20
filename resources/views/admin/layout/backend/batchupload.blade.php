@@ -105,6 +105,7 @@
                                         {{--<th>Profession</th>--}}
                                         <th>Applicable Camp Fee</th>
                                         <th>AGD Language</th>
+                                        <th>APN Grp</th>
                                         <th>Error/Success</th>
                                     </tr>
                                     </thead>
@@ -124,6 +125,7 @@
                                                 <td class="text-danger">{{$registrant['campercat_id']}}</td>
                                                 <td class="text-danger">{{$registrant['campfee_id']}}</td>
                                                 <td class="text-danger">{{$registrant['agdlang_id']}}</td>
+                                                <td class="text-danger">{{$registrant['apngrouping']}}</td>
                                                 <td><i class="fa fa-times text-danger"></i></td>
                                                 <div style="display:none">{{$error_count ++}}</div>
                                         @else
@@ -139,6 +141,7 @@
                                                 <td class="text-success">{{$registrant['campercat_id']}}</td>
                                                 <td class="text-success">{{$registrant['campfee_id']}}</td>
                                                 <td class="text-success">{{$registrant['agdlang_id']}}</td>
+                                                <td class="text-success">{{$registrant['apngrouping']}}</td>
                                                 <td></td>
                                             </tr>
                                         @endif

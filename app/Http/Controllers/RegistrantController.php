@@ -132,6 +132,7 @@ class RegistrantController extends Controller
             $data['SpecialAccomodation'] = LookupCode::RetrieveLookups(9);
             $data['area'] = LookupCode::RetrieveLookups(11);
             $data['areaOfCounseling'] = LookupCode::RetrieveLookups(17);
+            $data['apngrouping'] = LookupCode::RetrieveLookups(19);
 
             $data['profession'] = array_values(LookupCode::RetrieveLookups(10)->toArray());
 
@@ -195,7 +196,7 @@ class RegistrantController extends Controller
                 'gender_id' => $request['gender'],
                 'dob' => $request['dob'],
                 'telephone' => str_replace('+233','0',$request['telephone'])
-            ],
+                ],
                 [
                 'email' => $request['email'],
                 'nationality' => (isset($request['nationality']) && !is_numeric($request['nationality'])) ? $request['nationality'] : $request['othernationality'],
@@ -221,6 +222,7 @@ class RegistrantController extends Controller
                 'campfee_id' => $request['campfee'],
 //                'need_counseling' => $request['specialaccom'],
                 'disclaimer_id' => $request['disclaimer'] ? 1 : 0,
+                'apngrouping' => $request['apngrouping'],
             ])
             ) {
 
@@ -297,24 +299,22 @@ class RegistrantController extends Controller
     {
 //        dd($registrant);
         try {
-            $gender = LookupCode::RetrieveLookups(2);
-            $yesno = LookupCode::RetrieveLookups(1);
-            $maritalstatus = LookupCode::RetrieveLookups(3);
-            $region = LookupCode::RetrieveLookups(4);
-            $OfficeHeldInChurch = LookupCode::RetrieveLookups(5);
-            $Camper = LookupCode::RetrieveLookups(6);
-            $AGDLanguage = LookupCode::RetrieveLookups(7);
-            $CampApplicableFee = collect();//LookupCode::RetrieveLookups(8);
-            $SpecialAccomodation = LookupCode::RetrieveLookups(9);
-            $area = LookupCode::RetrieveLookups(11);
+            $data['gender'] = LookupCode::RetrieveLookups(2);
+            $data['yesno'] = LookupCode::RetrieveLookups(1);
+            $data['maritalstatus'] = LookupCode::RetrieveLookups(3);
+            $data['region'] = LookupCode::RetrieveLookups(4);
+            $data['OfficeHeldInChurch'] = LookupCode::RetrieveLookups(5);
+            $data['Camper'] = LookupCode::RetrieveLookups(6);
+            $data['AGDLanguage'] = LookupCode::RetrieveLookups(7);
+            $data['CampApplicableFee'] = collect();//LookupCode::RetrieveLookups(8);
+            $data['SpecialAccomodation'] = LookupCode::RetrieveLookups(9);
+            $data['area'] = LookupCode::RetrieveLookups(11);
+            $data['areaOfCounseling'] = LookupCode::RetrieveLookups(17);
+            $data['apngrouping'] = LookupCode::RetrieveLookups(19);
 
-            $areaOfCounseling = LookupCode::RetrieveLookups(17);
+            $data['profession'] = array_values(LookupCode::RetrieveLookups(10)->toArray());
 
-            $profession = array_values(LookupCode::RetrieveLookups(10)->toArray());
-
-            return view('admin.layout.backend.camper.edit', compact('registrant', 'gender',
-                'yesno', 'maritalstatus', 'region', 'OfficeHeldInChurch', 'Camper', 'AGDLanguage', 'CampApplicableFee',
-                'SpecialAccomodation', 'area', 'profession','areaOfCounseling'));
+            return view('admin.layout.backend.camper.edit', $data);
         }
         catch (\Exception $e)
         {
@@ -387,6 +387,7 @@ class RegistrantController extends Controller
                 $registrant->area_of_counseling = $request['areaOfCounseling'];
 
                 $registrant->specialaccom_id = $request['specialaccom_id'];
+                $registrant->apngrouping = $request['apngrouping'];
                 $registrant->update_app_userid = Auth()->user()->id;
 
                 $registrant->save();

@@ -156,6 +156,7 @@
                                     <th><div style="width: 115px;">An AGD Leader?</div></th>
                                     <th><div style="width: 115px;">Need Counselling?</div></th>
                                     <th><div style="width: 115px;">Counseling Area</div></th>
+                                    <th><div style="width: 115px;">APN Groupings</div></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -212,6 +213,9 @@
                                         </td>
                                         <td>
                                             {!! Form::select('counselingarea_'.$a,$areaOfCounseling->prepend('Choose...',''),null,['class'=>'form-control']) !!}
+                                        </td>
+                                        <td>
+                                            {!! Form::select('apngrouping'.$a,$apngrouping->prepend('Choose...',''),null,['class'=>'form-control']) !!}
                                         </td>
                                     </tr>
                                 @endfor
