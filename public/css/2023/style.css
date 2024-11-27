@@ -38,10 +38,13 @@ a {
   outline: none; }
 
 .wrapper {
-  background: url("../../images/bg-01.jpg") no-repeat;
-  background-size: cover;
+  background: url("../../images/bg-02.jpg") no-repeat;
+  /*background: url("../../images/bg-01.jpg") no-repeat;*/
+  background-size: 70%;
+  /*background-size: cover;*/
   min-height: 100vh;
-  display: flex; }
+  display: flex;
+}
   .wrapper .image-holder {
     width: 69.9%; }
   .wrapper .form-inner {

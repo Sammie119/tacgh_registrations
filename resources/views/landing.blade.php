@@ -34,14 +34,11 @@
 
 	<div class="wrapper">
 		<div class="image-holder text-center" style="margin: auto;padding: 70px;">
-			<h1 class="top-header mb-4 fw-bold">
-				APOSA Camp meeting <br/>
-				& <br/>
-				<span class="red-text"> Apostolic Professionals Summit </span>
-				<br/>{{ date('Y') }}
-			</h1>
+{{--			<h1 class="top-header mb-4 fw-bold">--}}
+{{--				APOSA Camp meeting {{ date('Y') }}--}}
+{{--			</h1>--}}
 
-			<h4 class="sub-header blink_me">Theme: {{env("CAMP_THEME")}}</h4>
+{{--			<h4 class="sub-header blink_me">Theme: {{env("CAMP_THEME")}}</h4>--}}
 		</div>
 		<div class="form-inner">
 			<div class="form-header text-center mb-5">
