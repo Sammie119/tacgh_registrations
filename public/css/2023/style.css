@@ -38,10 +38,10 @@ a {
   outline: none; }
 
 .wrapper {
-  background: url("../../images/bg-02.jpg") no-repeat;
+  background: url("../../images/bg-03.jpg") no-repeat;
   /*background: url("../../images/bg-01.jpg") no-repeat;*/
-  background-size: 70%;
-  /*background-size: cover;*/
+  /*background-size: 70%;*/
+  background-size: auto;
   min-height: 100vh;
   display: flex;
 }

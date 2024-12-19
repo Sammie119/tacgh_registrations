@@ -314,6 +314,8 @@ class RegistrantController extends Controller
 
             $data['profession'] = array_values(LookupCode::RetrieveLookups(10)->toArray());
 
+            $data['registrant'] = $registrant;
+
             return view('admin.layout.backend.camper.edit', $data);
         }
         catch (\Exception $e)

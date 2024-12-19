@@ -100,7 +100,7 @@
 			                },
 			                series: [{
 			                    name: 'Total Paid Applicants',
-			                    data: [{{ join($camper,',') }}]
+			                    data: [{{ join(',', $camper) }}]
 			                }]
 			            });
 			        </script>
@@ -163,7 +163,7 @@
 			                },
 			                series: [{
 			                    name: 'Gender',
-			                    data: [ {{ join($sex,',') }}]
+			                    data: [ {{ join(',', $sex) }}]
 			                }]
 			            });
 			        </script>

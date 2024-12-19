@@ -101,7 +101,7 @@
 			                },
 			                series: [{
 			                    name: 'Total amount for each camper type',
-			                    data: [{{ join($camper,',') }}]
+			                    data: [{{ join(',', $camper) }}]
 			                }]
 			            });
 			        </script>
@@ -175,7 +175,7 @@
 			                },
 			                series: [{
 			                    name: 'Amount',
-			                    data: [ {{ join($amount,',') }}]
+			                    data: [ {{ join(',', $amount) }}]
 			                }]
 			            });
 			        </script>
