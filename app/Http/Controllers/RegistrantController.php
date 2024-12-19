@@ -314,6 +314,8 @@ class RegistrantController extends Controller
 
             $data['profession'] = array_values(LookupCode::RetrieveLookups(10)->toArray());
 
+            $data['apngrouping'] = LookupCode::RetrieveLookups(19);
+
             $data['registrant'] = $registrant;
 
             return view('admin.layout.backend.camper.edit', $data);

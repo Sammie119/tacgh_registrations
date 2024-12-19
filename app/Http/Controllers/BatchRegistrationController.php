@@ -652,8 +652,8 @@ class BatchRegistrationController extends Controller
     }
 
     public function chapter_save_progress(Request $request){
-        try{
 
+        try{
             if($request['registrants'] == null || count(array_unique($request['registrants'])) < 0){
                 alert()->warning('Warning','You must select at least two of your members as paid to proceed')->persistent('Close');
                 return redirect()->back()->withInput();
@@ -662,8 +662,9 @@ class BatchRegistrationController extends Controller
             //will later work on saving the payment details to DB
 //       $recs =  Registrant::whereIn('id', $request['registrants'])->get();
             $request['registrants'] = array_unique($request['registrants']);
-            $checkedrecs =  Registrant::whereIn('id', array_unique($request['registrants']))->with('campfee')->get();
 
+            $checkedrecs =  Registrant::whereIn('id', array_unique($request['registrants']))->with('campfee')->get();
+//            dd($checkedrecs);
             //generate payment token to identify this batch selected campers payment
             $payment_token = BatchRegistration::token(6);
             $members = array();
@@ -681,17 +682,26 @@ class BatchRegistrationController extends Controller
 //            $members['comment'] =  $request['comment'];
                 $batch_payments [] = $members;
             }
+//            dd($batch_payments);
 //       Update registrant table, set confirmedpayment to -1
-//        $recs =  Registrant::whereIn('id', $request['registrants'])->update(['confirmedpayment'=>-1]);
-
+        $recs =  Registrant::whereIn('id', $request['registrants'])->update(['confirmedpayment' => 1]);
+//dd($request['hidBatchNo']);
             //Update Status of batch in online_payments
-            RegistrationStatus::where('camper_code','=', $request['hidBatchNo'])->update(['status'=>2]);
+            RegistrationStatus::where('camper_code', $request['hidBatchNo'])->update(['status' => 2]);
 
             ChapterOnlinePaidMembers::insert($batch_payments);
 
+            foreach ($request['registrants'] as $registrant){
+                $applicant = Registrant::where('id', $registrant)->first();
+                if($applicant->room_id == null){
+                    $assignroom = new AssignRoomController;
+                    $assignroom->assignCamperRoomAuto($applicant);
+                }
+            }
+
 //        alert()->success('Payment for '.count($request['registrants']).' members of your batch has been saved. Payment token is: '.$payment_token,'Success')->persistent('Close');
             alert()->success(count($request['registrants']).' member(s) of your batch are checked as members you\'re paying for.','Success')->persistent('Close');
-            return redirect()->route('batchregistration.chapter_info_update',[$request->hidBatchNo,1]);
+            return redirect()->route('batchregistration.chapter_info_update',[$request->hidBatchNo,2]);
         }
         catch (\Exception $e){
             ErrorLog::insertError("BatchRegistrationController - chapter_save_progress",$e->getMessage());

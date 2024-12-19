@@ -208,6 +208,14 @@
                                                     {!! Form::select('specialaccom_id',$SpecialAccomodation->prepend('Choose...',''),null,['class'=>'form-control','id'=>'speAcc','disabled'=>'disabled']) !!}
                                                         @endif
                                                 </div>
+                                                <div class="col-md-6 {{ $errors->has('apngrouping') ? ' has-error' : '' }}" style="margin-top:10px">
+                                                    {!! Form::label('apngrouping','APN Breakout Session Grouping?',['class'=>'form-label required']) !!}
+                                                    @if($registrant->confirmedpayment==0)
+                                                        {!! Form::select('apngrouping',$apngrouping->prepend('Choose...',''),null,['class'=>'form-control','required']) !!}
+                                                    @else
+                                                        {!! Form::select('apngrouping',$apngrouping->prepend('Choose...',''),null,['class'=>'form-control','required']) !!}
+                                                    @endif
+                                                </div>
 
                                             </div>
 

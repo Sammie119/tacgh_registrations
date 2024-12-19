@@ -484,6 +484,7 @@
 
                                     <form class="form-horizontal" id="paymentform" role="form" method="POST" action="{{ route('bacthregistration.chapter_save_progress') }}">
                                         {{ csrf_field() }}
+
                                         <input type="hidden" name="hidBatchNo" value="{{$chapter_details->batch_no}}"/>
 
                                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -570,6 +571,9 @@
                                                                         <th>Fee Type</th>
                                                                         <th>Fee</th>
                                                                         <th>Area</th>
+                                                                        <th class="check">Authorize
+                                                                            <input type="checkbox" id="paidmemberCheckAll" class="memberCheckAll" name="selectall" value="1"  checked="true"/>
+                                                                        </th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -583,6 +587,7 @@
                                                                             <td>{{$registrant->camper_fee_desc}}</td>
                                                                             <td>{{$registrant->camper_fee}}</td>
                                                                             <td>{{$registrant->carea}}</td>
+                                                                            <td class="floatright">{{ Form::checkbox('registrants[]',  $registrant->reg_id ,null,['class'=>'checked-member','checked']) }}</td>
                                                                         </tr>
                                                                     @endforeach
                                                                     </tbody>
@@ -660,16 +665,62 @@
                             @elseif($status == 2)
                                 <fieldset>
                                     <h3>Registration Status</h3>
-                                    <p>
-                                        Your registration status is shown here!
-                                    </p>
+{{--                                    <p>--}}
+{{--                                        Your registration status is shown here!--}}
+{{--                                    </p>--}}
+
+                                    <div class="table-responsive">
+                                        <table id="dtrows-paid" class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>Reg.#</th>
+                                                <th>Firstname</th>
+                                                <th>Lastname</th>
+                                                <th>Gender</th>
+                                                <th>Camper Category</th>
+                                                <th>Fee Type</th>
+                                                <th>Fee</th>
+                                                <th>Area</th>
+                                                <th>Status</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($paidmembers as $registrant)
+                                                <tr>
+                                                    <td>{{$registrant->reg_id}}</td>
+                                                    <td>{{$registrant->firstname}}</td>
+                                                    <td>{{strtoupper($registrant->surname)}}</td>
+                                                    <td>{{$registrant->gender}}</td>
+                                                    <td>{{$registrant->camper}}</td>
+                                                    <td>{{$registrant->camper_fee_desc}}</td>
+                                                    <td>{{$registrant->camper_fee}}</td>
+                                                    <td>{{$registrant->carea}}</td>
+                                                    <td class="text-green">Registered</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <center>
                                                 <a href="{{route('batchregistration.chapter_info_update',[$chapter_details->batch_no,1])}}" style="margin-top: 15px;margin-bottom: 0px;" class="btn btn-flat btn-label-blue">Previous</a>
-                                                @if($reg_status > $status)
-                                                    <a href="{{route('batchregistration.chapter_info_update',[$chapter_details->batch_no,2])}}" style="margin-top: 15px;margin-bottom: 0px;" class="btn btn-flat btn-label-blue">Next</a>
+                                                @if($reg_status >= $status)
+                                                    <a href="{{route('batchregistration.chapter_info_update',[$chapter_details->batch_no,3])}}" style="margin-top: 15px;margin-bottom: 0px;" class="btn btn-flat btn-label-blue">Complete</a>
                                                 @endif
+                                            </center>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            @elseif($status == 3)
+                                <fieldset>
+                                    <h3>Registration Completed</h3>
+
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <center>
+                                                <a href="/" style="margin-top: 15px;margin-bottom: 0px;" class="btn btn-flat btn-label-blue">Log out</a>
                                             </center>
                                         </div>
                                     </div>
