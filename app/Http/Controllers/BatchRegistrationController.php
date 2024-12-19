@@ -663,7 +663,7 @@ class BatchRegistrationController extends Controller
 //       $recs =  Registrant::whereIn('id', $request['registrants'])->get();
             $request['registrants'] = array_unique($request['registrants']);
 
-            $checkedrecs =  Registrant::whereIn('id', array_unique($request['registrants']))->with('campfee')->get();
+            $checkedrecs =  Registrant::whereIn('reg_id', $request['registrants'])->orWhereIn('id', $request['registrants'])->with('campfee')->get();
 //            dd($checkedrecs);
             //generate payment token to identify this batch selected campers payment
             $payment_token = BatchRegistration::token(6);
@@ -684,18 +684,37 @@ class BatchRegistrationController extends Controller
             }
 //            dd($batch_payments);
 //       Update registrant table, set confirmedpayment to -1
-        $recs =  Registrant::whereIn('id', $request['registrants'])->update(['confirmedpayment' => 1]);
+//        $recs =  Registrant::whereIn('reg_id', $request['registrants'])->orWhereIn('id', $request['registrants'])->update(['confirmedpayment' => 1]);
 //dd($request['hidBatchNo']);
             //Update Status of batch in online_payments
-            RegistrationStatus::where('camper_code', $request['hidBatchNo'])->update(['status' => 2]);
+            RegistrationStatus::where('camper_code', $request['hidBatchNo'])->update(['status' => 1]);
 
             ChapterOnlinePaidMembers::insert($batch_payments);
 
             foreach ($request['registrants'] as $registrant){
-                $applicant = Registrant::where('id', $registrant)->first();
-                if($applicant->room_id == null){
-                    $assignroom = new AssignRoomController;
-                    $assignroom->assignCamperRoomAuto($applicant);
+                $applicant = Registrant::where('reg_id', $registrant)->orWhere('id', $registrant)->first();
+
+                $registration = RegistrationStatus::where('camper_code', '=', $applicant->reg_id)->first();
+
+                // will look at it well
+                $total_paid = OnlinePayment::where('reg_id','=', $request->hidBatchNo)->where('approved','=',1)
+                    ->where('payment_status','=',1)->sum('amount_paid');
+
+                $amount_to_pay = camper_amount($applicant->campfee_id);
+
+                $amount_left = (double)$amount_to_pay - (double)$total_paid;
+
+                if($amount_left <= 0 && $applicant) {
+                    $applicant->confirmedpayment = 1;
+                    $applicant->save();
+
+                    $registration->status = 3;
+                    $registration->save();
+
+                    if ($applicant->room_id == null) {
+                        $assignroom = new AssignRoomController;
+                        $assignroom->assignCamperRoomAuto($applicant);
+                    }
                 }
             }
 
