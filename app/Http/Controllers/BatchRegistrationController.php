@@ -694,7 +694,7 @@ class BatchRegistrationController extends Controller
             foreach ($request['registrants'] as $registrant){
                 $applicant = Registrant::where('reg_id', $registrant)->orWhere('id', $registrant)->first();
 
-                $registration = RegistrationStatus::where('camper_code', '=', $applicant->reg_id)->first();
+//                $registration = RegistrationStatus::where('camper_code', '=', $applicant->reg_id)->first();
 
                 // will look at it well
                 $total_paid = OnlinePayment::where('reg_id','=', $request->hidBatchNo)->where('approved','=',1)
@@ -708,8 +708,8 @@ class BatchRegistrationController extends Controller
                     $applicant->confirmedpayment = 1;
                     $applicant->save();
 
-                    $registration->status = 3;
-                    $registration->save();
+//                    $registration->status = 3;
+//                    $registration->save();
 
                     if ($applicant->room_id == null) {
                         $assignroom = new AssignRoomController;
