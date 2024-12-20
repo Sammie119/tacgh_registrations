@@ -58,7 +58,7 @@ class RegistrantController extends Controller
 //                ,"onlinepayments","onsitepayments"
 //                ->with(["onlinepayments"])
                 ->where(function($query){
-                $query->whereRaw('LENGTH(batch_no) = 0 or batch_no is null');
+                $query->whereRaw('LENGTH(batch_no) != 0 or batch_no is not null');
             })->get();
 
 //            dd($registrants->first()->toArray());

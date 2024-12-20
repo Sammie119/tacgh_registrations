@@ -34,6 +34,7 @@
                                     <th>Room</th>
                                     {{--<th>Special Accom.</th>--}}
                                     <th>Area</th>
+                                    <th>Batch #</th>
                                     <th>Action</th>
                                 </tr>
                                         </thead>
@@ -57,6 +58,7 @@
                                         @endif</td>
 {{--                                        <td>{{$registrant->specialaccom->FullName}}</td>--}}
                                         <td>{{$registrant->area->FullName}}</td>
+                                        <td>{{$registrant->batch_no}}</td>
                                         <td>
                                             <a class="btn btn-success btn-flat" href="{{ route('camper.nonpaidindividual') }}"
                                                onclick="event.preventDefault(); document.getElementById('indiv-form{{$registrant->id}}').submit();">
