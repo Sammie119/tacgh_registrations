@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Record extends Model
 {
     //
-    protected $guarded=['id'];
+    protected $guarded=[];
 
     protected $dates = ['dob'];
 
-    protected $fillable = ['surname','firstname','gender_id','dob','nationality','foreigndel_id','maritalstatus_id','chapter',
-        'localassembly','denomination','area_id','region_id','permaddress','telephone','email','officeaposa',
-        'officechurch_id','profession','businessaddress','studentaddress','campercat_id','agdlang_id','agdleader_id','ambassadorname',
-        'ambassadorphone','campfee_id','specialaccom_id','disclaimer_id','reg_id'];
+//   dob protected $fillable = ['surname','firstname','gender_id','dob','nationality','foreigndel_id','maritalstatus_id','chapter',
+//        'localassembly','denomination','area_id','region_id','permaddress','telephone','email','officeaposa',
+//        'officechurch_id','profession','businessaddress','studentaddress','campercat_id','agdlang_id','agdleader_id','ambassadorname',
+//        'ambassadorphone','campfee_id','specialaccom_id','disclaimer_id','reg_id'];
 
     //Lookup relationships
     public function gender(){

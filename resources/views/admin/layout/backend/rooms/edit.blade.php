@@ -117,7 +117,7 @@
 
 			                    <label for="beds" class="col-md-1 control-label">Beds</label>
 			                    <div class="col-md-1">
-			                        <input id="beds" type="number" readonly required min="1" max="5" class="form-control" name="beds" value="{{ $room->total_occupants }}" required autofocus>
+			                        <input id="beds" type="number" required min="1" max="100" class="form-control" name="beds" value="{{ $room->total_occupants }}" autofocus>
 
 			                        @if ($errors->has('beds'))
 			                            <span class="help-block">
@@ -132,7 +132,7 @@
 			                    </div> --}}
 			                    <label for="accom" class="col-md-2 control-label">Accomodation Type</label>
 			                    <div class="col-md-3">
-			                        <select class="form-control" required disabled name="accom" id="accom">
+			                        <select class="form-control" disabled required name="accom" id="accom">
 			                        	<option value="">Please Choose Accomodation</option>
 			                        	@foreach ($special as $accom)
 			                        		<option @if ($room->special_acc == $accom->id) selected @endif value="{{ $accom->id }}">{{ $accom->FullName }}</option>
@@ -206,7 +206,7 @@
 								<input type="hidden" name="r_id" value="{{ $room->id }}">
 								<input type="hidden" name="r_app" value="{{ $room_mates->count() }}">
 								<div class="input-group input-group-sm">
-					                <input type="text" placeholder="ACMXXXX" name="applicant_no" required id="applicant_no" class="form-control">
+					                <input type="text" placeholder="Reg ID" name="applicant_no" required id="applicant_no" class="form-control">
 					                    <span class="input-group-btn">
 					                      <button type="submit" class="btn btn-info btn-flat">Add Applicant</button>
 					                    </span>
@@ -230,7 +230,7 @@
 								<input type="hidden" name="r_id" value="{{ $room->id }}">
 								<input type="hidden" name="r_app" value="{{ $room_mates->count() }}">
 								<div class="input-group input-group-sm">
-					                <input type="text" placeholder="ACMXXXX" name="applicant_no" required id="applicant_no" class="form-control">
+					                <input type="text" placeholder="Reg ID" name="applicant_no" required id="applicant_no" class="form-control">
 					                    <span class="input-group-btn">
 					                      <button type="submit" class="btn btn-warning btn-flat">Transfer</button>
 					                    </span>
@@ -253,6 +253,7 @@
 	                    			<th>Area</th>
 	                    			<th>Local Assembly</th>
 	                    			<th>Contact</th>
+									<th>Action</th>
 	                    		</tr>
 	                    	</thead>
 	                    	<tbody>
@@ -264,11 +265,15 @@
 	                    				@endphp
 	                    				@foreach ($room_mates as $room_mate)
 	                    					<tr>
-	                    					<td>{{ $room_mate->reg_id }}</td>
-			                    			<td>{{ $room_mate->firstname." ".$room_mate->surname }}</td>
-			                    			<td>{{ $room_mate->area->FullName }}</td>
-			                    			<td>{{ $room_mate->localassembly }}</td>
-			                    			<td>{{ $room_mate->telephone }}</td>
+												<td>{{ $room_mate->reg_id }}</td>
+												<td>{{ $room_mate->firstname." ".$room_mate->surname }}</td>
+												<td>{{ $room_mate->area->FullName }}</td>
+												<td>{{ $room_mate->localassembly }}</td>
+												<td>{{ $room_mate->telephone }}</td>
+												<td><a href="{{ route('rooms.remove_room_mate', [$room_mate->id]) }}" class="btn btn-danger btn-flat  pull-right">
+														<i class="fa fa-trash-o" aria-hidden="true"></i>
+													</a>
+												</td>
 	                    					</tr>
 	                    				@endforeach
 		                    			

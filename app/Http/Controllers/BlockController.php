@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Residence;
 use App\Models\Room;
 use App\Models\Block;
-use Alert;
+//use Alert;
 use Illuminate\Support\Facades\Input;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BlockController extends Controller
 {
@@ -175,6 +176,7 @@ class BlockController extends Controller
     public function store_rooms(Request $request)
     {
 //        return $request->all();
+//        dd($request->all());
         $venue = CampVenue::where('slug','=', $request->venue_slug)->pluck('id')->first();
         $block = Block::findOrFail($request->block_id);
 
@@ -191,14 +193,16 @@ class BlockController extends Controller
                 Alert::error('On floor '.$a.', the Start room should be less than the End room.', 'Attention')->persistent("Ok");
                 return back()->withInput();
             }
-            if ($request->floors > $a) {
-                if ($request->start[$a] < $request->end[$i]) {
-                    Alert::error('On floor '.($a+1).', the Start room should be more than the End room on floor '.$a, 'Attention')->persistent("Ok");
-                    return back()->withInput();
-                }
-            }
+
+//            if ($request->floors > $a) {
+//                if ($request->start[$a] < $request->end[$i]) {
+//                    Alert::error('On floor '.($a+1).', the Start room should be more than the End room on floor '.$a, 'Attention')->persistent("Ok");
+//                    return back()->withInput();
+//                }
+//            }
             $totalRooms += 1+($request->end[$i] - $request->start[$i]);
         }
+
 
 //        if ($totalRooms > $request->rooms) {
 //            $extra = $totalRooms - $request->rooms;
@@ -278,12 +282,12 @@ class BlockController extends Controller
                 return back()->withInput();
             }
 
-            if ($request->floors > $a) {
-                if ($request->start[$a] < $request->end[$i]) {
-                    Alert::error('On floor '.($a+1).', the Start room should be more than the End room on floor '.$a, 'Attention')->persistent("Ok");
-                    return back()->withInput();
-                }
-            }
+//            if ($request->floors > $a) {
+//                if ($request->start[$a] < $request->end[$i]) {
+//                    Alert::error('On floor '.($a+1).', the Start room should be more than the End room on floor '.$a, 'Attention')->persistent("Ok");
+//                    return back()->withInput();
+//                }
+//            }
             // if ($request->start[$a] < $request->end[$i]) {
             //     Alert::error('On floor '.($a+1).', the Start room should be more than the End room on floor '.$a, 'Attention')->persistent("Ok");
             //     return back()->withInput();

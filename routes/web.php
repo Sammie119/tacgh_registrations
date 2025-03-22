@@ -9,6 +9,7 @@ use App\Http\Controllers\BlockController;
 use App\Http\Controllers\CampFeeController;
 use App\Http\Controllers\CampVenueController;
 use App\Http\Controllers\ErrorLogController;
+use App\Http\Controllers\EventsController;
 use App\Http\Controllers\GeneralSettings;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LookupCodeController;
@@ -84,6 +85,9 @@ Route::resource('registrant', 'RegistrantController');
 Route::get('camper', [RegistrantController::class, 'camper'])->name('camper');
 Route::get('nonpaidindividual', [RegistrantController::class, 'nonpaidindividual'])->name('camper.nonpaidindividual');
 Route::get('onlinepaidcampers', [RegistrantController::class, 'onlinepaidcampers'])->name('camper.onlinepaidcampers');
+Route::post('confirm_attendee', [RegistrantController::class, 'confirmAttendee'])->name('camper.confirm_attendee');
+Route::post('remove_confirm_attendee', [RegistrantController::class, 'removeConfirmAttendee'])->name('camper.remove_confirm_attendee');
+
 
 //authorize online paid entries
 Route::get('paidcampers', [RegistrantController::class, 'paidcampers'])->name('registrant.paidcampers');
@@ -242,6 +246,7 @@ Route::post('room/clear-members',[RoomController::class, 'clear_room'])->name('r
 Route::get('/block/{id}/rooms', [RoomController::class, 'index'])->name('rooms');
 Route::get('manualroomsetup', [RoomController::class, 'manualroomsetup'])->name('rooms.manualroomsetup');
 Route::post('savemanualrooms', [RoomController::class, 'savemanualrooms'])->name('rooms.savemanualrooms');
+Route::get('remove_room_mate/{id}', [RoomController::class, 'removeRoomMate'])->name('rooms.remove_room_mate');
 
 // Reports Route
 Route::get('/report', [ReportsController::class, 'index'])->name('report');
@@ -302,3 +307,6 @@ Route::get('settings',[GeneralSettings::class, 'index'])->name('settings');
 Route::post('settings/save-venue',[GeneralSettings::class, 'saveThisYearVenue'])->name('settings.saveThisYearVenue');
 //});
 
+//Events
+Route::resource('events','EventsController');
+Route::get('events/delete/{id}',[EventsController::class, 'destroy'])->name('events.delete');

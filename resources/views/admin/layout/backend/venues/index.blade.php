@@ -42,6 +42,7 @@
                                         <th class="border-top-0" style="width: 50px">No.</th>
                                         <th class="border-top-0">Venue Name</th>
                                         <th class="border-top-0">Location</th>
+                                        <th class="border-top-0" style="width: 200px">Current Venue</th>
                                         <th class="border-top-0" style="width: 200px">Region</th>
                                         <th class="border-top-0" style="width: 200px">Actions</th>
                                     </tr>
@@ -55,6 +56,7 @@
                                             <td>{{ $count++ }}</td>
                                             <td>{{ $venue->name }}</td>
                                             <td>{{ $venue->location }}</td>
+                                            <td>{{ $venue->current_camp == 1? 'Yes':'No' }}</td>
                                             <td>{{ $venue->region->FullName }}</td>
                                             <td>
                                                 {{-- <form action="{{ url('residence/'.$res->id) }}" method="POST" class="pull-left" style="margin-right:3px">

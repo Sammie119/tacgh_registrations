@@ -23,6 +23,7 @@ use App\Models\ViewRecord;
 use App\Models\ViewRegistrant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Excel;
 use Alert;
@@ -333,8 +334,6 @@ class BatchRegistrationController extends Controller
 
     public function chapter_update_page($batch_no = 0,$status=0){
         try{
-
-
             $registration = RegistrationStatus::where('camper_code',$batch_no)->first();
 
             if(!$registration){
@@ -457,12 +456,20 @@ class BatchRegistrationController extends Controller
                 $fees = CampFee::where(["active_flag"=>1])->get();
 
                 $arr2 = array();
+
+                $currentYear = date('Y');
+                $count = DB::table('registrants_staging')->whereRaw("YEAR(created_at) = $currentYear")->count();
+                $count2 = DB::table('batches')->whereRaw("YEAR(created_at) = $currentYear")->count();
+                $ref_date = date("y");
+                $prefix = get_current_event()->code_prefix;
+
                 if(isset($request['hidBatchNo'])){
                     $batchno = $request['hidBatchNo'];
                 }
                 else{
                     $batch = Batches::firstOrCreate([
                         'chapter'=>$request['chapter'],
+                        'batch_no'=>event_registration_code(++$count2, 4, "B$prefix-$ref_date-"),
                         'ambassadorname'=>$request['ambassadorname'],
                         'ambassadorphone'=>$request['ambassadorphone']
                     ]);
@@ -476,7 +483,7 @@ class BatchRegistrationController extends Controller
                     $camper_cat_id = $this->lookupkey($lookups,"FullName",$value['campercat_id']);
 
                     $camper_fee = findItemsInCollection($fees,$camper_cat_id,$value['campfee_id'])->first();
-//                    dd($camper_fee);
+
                     if(is_null($this->lookupkey($lookups,"FullName",$value['maritalstatus_id']))
                         || is_null($this->lookupkey($lookups,"FullName",$value['gender_id']))
                         || is_null($this->lookupkey($lookups,"FullName",$value['officechurch_id']))
@@ -487,11 +494,18 @@ class BatchRegistrationController extends Controller
                     )
                     {
                         alert()->error("Sorry",'Please fill the excel you downloaded and upload same. Also check all selected dropdowns to be sure they are correct')->persistent('Close');
-
+//                        dd($this->lookupkey($lookups,"FullName",$value['maritalstatus_id']),
+//                            $this->lookupkey($lookups,"FullName",$value['gender_id']),
+//                            $this->lookupkey($lookups,"FullName",$value['officechurch_id']),
+//                            $this->lookupkey($lookups,"FullName",$value['agdlang_id']),
+//                            $this->lookupkey($lookups,"FullName",$value['campercat_id']),
+//                            $this->lookupkey($lookups,"FullName",$value['apngrouping']),
+//                            $camper_fee,
+//                            $camper_fee);
                         return back()->withInput();
                     }
                     else{
-
+                        $value['reg_id'] = event_registration_code(++$count, 4, "$prefix-$ref_date-");
                         $value['maritalstatus_id'] = $this->lookupkey($lookups,"FullName",$value['maritalstatus_id']);
                         $value['gender_id'] = $this->lookupkey($lookups,"FullName",$value['gender_id']);
                         $value['officechurch_id'] = $this->lookupkey($lookups,"FullName",$value['officechurch_id']);
@@ -512,6 +526,7 @@ class BatchRegistrationController extends Controller
                         $value['updated_at'] = \Carbon\Carbon::now();
                         $value['batch_no']=$batchno;
                         $value['attending']=1;
+                        $value['event_id']=get_current_event()->id;
 
                         $arr2[] = $value;
                     }
@@ -606,9 +621,11 @@ class BatchRegistrationController extends Controller
                     ]);
                 }
 
-                $this->notifySMS($request['ambassadorphone'],
-                    'Congrats '.$request['ambassadorname'].', you registered '.count($arr2).' succesfully. Registration is incomplete until authorized at camp. Batch #: '.$batchno.' and login token: '.$token,
-                    '1234');
+                get_current_event()->isPaymentRequired == 1 ?
+                    $msg = 'Congrats ' . $request['ambassadorname'] . ' , you registered '.count($arr2).' succesfully. Registration is incomplete until full payment of camp fee is made.'."\n". ' Batch # : ' . $batchno. "\n". ' login token : ' . $token :
+                    $msg = 'Congrats ' . $request['ambassadorname'] . ' , you registered '.count($arr2).' succesfully. Use the details below to complete your Registration process.'."\n". ' Batch # : ' . $batchno . "\n". ' login token : ' . $token;
+
+                $this->notifySMS($request['ambassadorphone'], $msg, '1234');
 
                 alert()->success("Success",'Batch registration of '.count($arr2).' was successful! Batch #: '.$batchno.'. A token will be sent to your phone shortly!')->persistent('Close');
                 return redirect('/');
@@ -1006,9 +1023,15 @@ class BatchRegistrationController extends Controller
 
         $batch_no = BatchRegistration::batchnumber(5)."-".$date->getTimestamp();
 
+            $currentYear = date('Y');
+            $count = DB::table('registrants_staging')->whereRaw("YEAR(created_at) = $currentYear")->count();
+            $count2 = DB::table('batches')->whereRaw("YEAR(created_at) = $currentYear")->count();
+            $ref_date = date("y");
+            $prefix = get_current_event()->code_prefix;
+
             $batchno = Batches::create([
                 'chapter'=>$request['chapter'],
-                'batch_no'=>$batch_no,
+                'batch_no'=>event_registration_code(++$count2, 4, "B$prefix-$ref_date-"),
                 'ambassadorname'=>$request['ambassadorname'],
                 'ambassadorphone'=>$request['ambassadorphone']
             ]);
@@ -1022,6 +1045,7 @@ class BatchRegistrationController extends Controller
             for ($a = 0; $a < $no_campers; $a++){
                 $b = $a+1;
                 $rec = array();
+                $rec['reg_id'] = event_registration_code(++$count, 4, "$prefix-$ref_date-");
                 $rec['surname'] = $request->surname[$a];
                 $rec['firstname'] = $request->firstname[$a];
                 $rec['gender_id'] = $request['gender_'.$b];
@@ -1035,7 +1059,7 @@ class BatchRegistrationController extends Controller
                 $rec['region_id']=$request['region'];
                 $rec['telephone']=$request['telephone'][$a];
                 $rec['email']=$request['email'][$a];
-                $rec['batch_no']=$batch->batch_no;
+//                $rec['batch_no']=$batch->batch_no;
                 $rec['officechurch_id']=$request['officechurch_'.$b];
                 $rec['campercat_id']=$request['campercat_'.$b];
                 $rec['agdlang_id']=$request['agdlang_'.$b];
@@ -1059,6 +1083,7 @@ class BatchRegistrationController extends Controller
                 $rec['ambassadorname']=$request['ambassadorname'];
                 $rec['ambassadorphone']=$request['ambassadorphone'];
                 $rec['apngrouping']=$request['apngrouping'];
+                $rec['event_id']=get_current_event()->id;
                 $rec['created_at'] =  \Carbon\Carbon::now();
                 $rec['updated_at'] = \Carbon\Carbon::now();
                 $batch_upload_list[]  = $rec;
@@ -1096,16 +1121,19 @@ class BatchRegistrationController extends Controller
                 'token' => $token
             ]);
 
-            $this->notifySMS($request['ambassadorphone'],
-                'Congrats '.$request['ambassadorname'].', registration was successful. Registration is incomplete until authorized at camp. Batch #: '.$batch->batch_no.' and login token: '.$token,
-                '1234');
+            get_current_event()->isPaymentRequired == 1 ?
+                $msg = 'Congrats ' . $request['ambassadorname'] . ' for your interest in '.get_current_event()->name.'. Registration is incomplete until full payment of camp fee is made.'."\n". ' Batch # : ' . $batch->batch_no. "\n". ' login token : ' . $token :
+                $msg = 'Congrats ' . $request['ambassadorname'] . ' for your interest in '.get_current_event()->name.'. Use the details below to complete your Registration process.'."\n". ' Batch # : ' . $batch->batch_no . "\n". ' login token : ' . $token;
+
+
+            $this->notifySMS($request['ambassadorphone'], $msg, '1234');
 
             alert()->success('Campers have been added successfully! Batch #: '.$batch->batch_no.'. A token will be sent to the Ambassaddor phone number.','Success')->persistent('Close');
             return redirect()->route('registrant.registeredcamper');
         }
         catch (\Exception $e){
             ErrorLog::insertError("BatchRegistrationController - batchform_save",$e->getMessage());
-            alert()->error("Error","Sorry some error occured saving data");
+            alert()->error("Error","Sorry some error occurred saving data");
             return back()->withInput();
         }
     }

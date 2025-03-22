@@ -32,8 +32,7 @@
                 
             </div>
             <div style="background: #f6f9fb;margin: 1.5rem 0; padding: 0.5rem 1rem 3rem;">
-                <h2 style="text-align: center;">APOSA Campmeeting
-                    <span style="color: red;">{{date('Y')}}</span> - My Profile</h2>
+                <h2 style="text-align: center;">{{ get_current_event()->name }} - My Profile</h2>
                 <hr>
                 <div id="qrcode">
                     @if(isset($camper->qrcode))

@@ -9,7 +9,8 @@ use App\Models\Block;
 use App\Models\Registrant;
 use App\Models\Lookup;
 use DB;
-use Alert;
+//use Alert;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RoomController extends Controller
 {
@@ -79,7 +80,7 @@ class RoomController extends Controller
     public function edit($id)
     {
         $room = Room::findOrFail($id);
-        $special = Lookup::where('lookup_code_id',9)->get();
+        $special = Lookup::where(['lookup_code_id' => 9, 'ActiveFlag' => 1])->get();
 
         $room_mates = Registrant::where('room_id',$id)->get();
         return view('admin.layout.backend.rooms.edit',compact('room','room_mates','special'));
@@ -185,21 +186,28 @@ class RoomController extends Controller
     }
 
     public function getBody()
+    {
 
-{
+        $title = "This Room";
 
-    $title = "This Room";
+        $view = view("admin.layout.backend.rooms.ajaxViewer",compact('title'))->render();
 
-    $view = view("admin.layout.backend.rooms.ajaxViewer",compact('title'))->render();
+        return response()->json(['html'=>$view]);
 
-    return response()->json(['html'=>$view]);
-
-}
+    }
 
     public function clear_room(Request $request)
     {
         Registrant::where('room_id','=', $request->room_id)->update(['room_id'=>null]);
         Alert::success('Room cleared!', 'Success')->autoclose(1200);
+        return back();
+    }
+
+    public function removeRoomMate($id)
+    {
+//        dd($id);
+        Registrant::find($id)->update(['room_id'=>null]);
+        Alert::success('Room Mate Removed!', 'Success')->autoclose(1200);
         return back();
     }
 

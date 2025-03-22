@@ -7,6 +7,7 @@ use App\Models\CampVenue;
 use App\Models\Lookup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CampVenueController extends Controller
 {
@@ -49,7 +50,7 @@ class CampVenueController extends Controller
     public function get_venue_info(Request $request){
         $venue = DB::table('camp_venues')
             ->join('lookups', 'camp_venues.region_id', '=', 'lookups.id')
-            ->select('camp_venues.id', 'camp_venues.name', 'camp_venues.slug', 'camp_venues.location', 'lookups.FullName', 'camp_venues.region_id')
+            ->select('camp_venues.id', 'camp_venues.name', 'camp_venues.slug', 'camp_venues.location', 'lookups.FullName', 'camp_venues.region_id', 'camp_venues.current_camp')
             ->where('camp_venues.slug','=', $request->slug)
             ->first();
         $regions = Lookup::where('lookup_code_id','=', 4)
@@ -90,7 +91,8 @@ class CampVenueController extends Controller
             'slug' => $request->venue,
         ]);
         if ($venue){
-            notify(new ToastNotification('Venue Created', $venue->venue.' has been successfully added.','success'));
+//            notify(new ToastNotification('Venue Created', $venue->venue.' has been successfully added.','success'));
+            Alert::success('Venue Created successfully!', 'Success');
         }
 
         $getvenues = DB::table('camp_venues')
@@ -134,6 +136,7 @@ class CampVenueController extends Controller
      */
     public function update(Request $request)
     {
+//        dd($request->all());
         $this->validate($request,[
             'venue'=>'required|string|unique:camp_venues,name,'.$request->id.'|min:2|max:255',
             'location'=>'required|string|min:2|max:255',
@@ -141,17 +144,26 @@ class CampVenueController extends Controller
             'id'=>'required|numeric'
         ]);
 
+        if($request->current_camp == 1){
+            DB::table('camp_venues')->update([
+                'current_camp' => 0,
+            ]);
+        }
+
         $updated = CampVenue::find($request->id)
             ->update([
                 'name' => ucwords($request->venue),
                 'location' => ucwords($request->location),
                 'region' => $request->region,
                 'slug' => $request->venue,
+                'current_camp' => $request->current_camp,
             ]);
+
         $status=false;
         if ($updated){
             $status=true;
-            notify(new ToastNotification('Venue Updated', 'Successful','success'));
+//            notify(new ToastNotification('Venue Updated', 'Successful','success'));
+            Alert::success('Venue Updated successfully!', 'Success');
         }
 
 //        $getvenues = DB::table('camp_venues')

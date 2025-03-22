@@ -8,5 +8,5 @@ class Token extends Model
 {
     //
 //    protected $guarded = ['id'];
-    protected $fillable = ['camper_code','telephone','token'];
+    protected $fillable = ['camper_code','telephone','token', 'event_id'];
 }

@@ -156,65 +156,65 @@
                                     <center><a class="btn btn-label-blue btn-flat" disabled><i class="fa fa-pencil" style="margin-right:10px" aria-hidden="true"></i> Register Batch</a></center>
                                 @else
                                     <div class="row">
-                                    <form  action="{{ URL::to('batchregister') }}" class="form-horizontal" method="post">
-                                        {{ csrf_field() }}
-                                        <div class="row" style="color:red;margin:10px;">
-                                            All fields are required!
-                                        </div>
-                                        <div class="form-group">
-{{--                                            <div class="form-group">--}}
-                                                <div class="col-md-6 {{ $errors->has('chapter') ? ' has-error' : '' }}" >
-                                                    {!! Form::label('chapter','Chapter:',['class'=>'form-label']) !!}
-                                                    {!! Form::text('chapter',null,['class'=>'form-control','required']) !!}
-                                                </div>
-                                                <div class="col-md-6 {{ $errors->has('denomination') ? ' has-error' : '' }}" style="margin-top:9px">
-                                                    {!! Form::label('denomination','Denomination:',['class'=>'form-label']) !!}
-                                                    <label style="margin-left: 10px; margin-right: 5px;">
-                                                        <input type="radio"  value="The Apostolic Church-Ghana"class="flat-red" name="denomination" required> The Apostolic Church-Ghana
-                                                    </label>
-                                                    <label style="margin-top: 0px; margin-right: 5px;">
-                                                        <input type="radio" class="flat-red" value="2" name="denomination" required> Other
-                                                    </label><input type="text" name="otherdenomination" class="form-control" style="float:right"/>
-                                                </div>
-{{--                                            </div>--}}
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-6 {{ $errors->has('region') ? ' has-error' : '' }}" >
-                                                {!! Form::label('region','Region:',['class'=>'form-label']) !!}
-                                                {!! Form::select('region',$region->prepend('Choose...',''),null,['class'=>'form-control','required']) !!}
+                                        <form  action="{{ URL::to('batchregister') }}" class="form-horizontal" method="post">
+                                            {{ csrf_field() }}
+                                            <div class="row" style="color:red;margin:10px;">
+                                                All fields are required!
                                             </div>
-                                            <div class="col-md-6 {{ $errors->has('area') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                {!! Form::label('area','Area:',['class'=>'form-label']) !!}
-                                                {{--{!! Form::text('area',null,['class'=>'form-control']) !!}--}}
-                                                {!! Form::select('area',$area->prepend('Choose...',''),null,['class'=>'form-control','required']) !!}
+                                            <div class="form-group">
+    {{--                                            <div class="form-group">--}}
+                                                    <div class="col-md-6 {{ $errors->has('chapter') ? ' has-error' : '' }}" >
+                                                        {!! Form::label('chapter','Chapter:',['class'=>'form-label']) !!}
+                                                        {!! Form::text('chapter',null,['class'=>'form-control','required']) !!}
+                                                    </div>
+                                                    <div class="col-md-6 {{ $errors->has('denomination') ? ' has-error' : '' }}" style="margin-top:9px">
+                                                        {!! Form::label('denomination','Denomination:',['class'=>'form-label']) !!}
+                                                        <label style="margin-left: 10px; margin-right: 5px;">
+                                                            <input type="radio"  value="The Apostolic Church-Ghana"class="flat-red" name="denomination" required> The Apostolic Church-Ghana
+                                                        </label>
+                                                        <label style="margin-top: 0px; margin-right: 5px;">
+                                                            <input type="radio" class="flat-red" value="2" name="denomination" required> Other
+                                                        </label><input type="text" name="otherdenomination" class="form-control" style="float:right"/>
+                                                    </div>
+    {{--                                            </div>--}}
                                             </div>
+                                            <div class="form-group">
+                                                <div class="col-md-6 {{ $errors->has('region') ? ' has-error' : '' }}" >
+                                                    {!! Form::label('region','Region:',['class'=>'form-label']) !!}
+                                                    {!! Form::select('region',$region->prepend('Choose...',''),null,['class'=>'form-control','required']) !!}
+                                                </div>
+                                                <div class="col-md-6 {{ $errors->has('area') ? ' has-error' : '' }}" style="margin-top:10px">
+                                                    {!! Form::label('area','Area:',['class'=>'form-label']) !!}
+                                                    {{--{!! Form::text('area',null,['class'=>'form-control']) !!}--}}
+                                                    {!! Form::select('area',$area->prepend('Choose...',''),null,['class'=>'form-control','required']) !!}
+                                                </div>
 
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-6 {{ $errors->has('ambassadorname') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                {!! Form::label('ambassadorname','Name of Ambassador/Leader:',['class'=>'form-label']) !!}
-                                                {!! Form::text('ambassadorname',null,['class'=>'form-control','required']) !!}
                                             </div>
-                                            <div class="col-md-6 {{ $errors->has('ambassadorphone') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                {!! Form::label('ambassadorphone','Contact of Ambassador/Leader:',['class'=>'form-label']) !!}
-                                                {!! Form::text('ambassadorphone',null,['class'=>'form-control','id'=>'ambassadorphone','required']) !!}
+                                            <div class="form-group">
+                                                <div class="col-md-6 {{ $errors->has('ambassadorname') ? ' has-error' : '' }}" style="margin-top:10px">
+                                                    {!! Form::label('ambassadorname','Name of Ambassador/Leader:',['class'=>'form-label']) !!}
+                                                    {!! Form::text('ambassadorname',null,['class'=>'form-control','required']) !!}
+                                                </div>
+                                                <div class="col-md-6 {{ $errors->has('ambassadorphone') ? ' has-error' : '' }}" style="margin-top:10px">
+                                                    {!! Form::label('ambassadorphone','Contact of Ambassador/Leader:',['class'=>'form-label']) !!}
+                                                    {!! Form::text('ambassadorphone',null,['class'=>'form-control','id'=>'ambassadorphone','required']) !!}
+                                                </div>
                                             </div>
-                                        </div>
-                                        {{--<div class="form-group">--}}
-                                        {{--<div class="col-md-6" style="margin-top:10px">--}}
-                                        {{--<label><input type="checkbox" name="foreigndelegate"/>Any Foreign delegate?</label>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="col-md-6" style="margin-top:10px">--}}
-                                        {{--<label><input type="checkbox" name="specialneeds"/>Anybody with special needs?</label>--}}
-                                        {{--</div>--}}
-                                        {{--</div>--}}
-                                        <center>
-                                            <button class="btn btn-flat btn-label-blue" style="margin-top:15px"> Register Batch</button>
-                                            <a href="{{url()->previous()}}" class="btn btn-flat btn-default">
-                                                <i class="fa fa-angle-left" aria-hidden="true" style="margin-right:5px"></i> Back
-                                            </a>
-                                        </center>
-                                    </form>
+                                            {{--<div class="form-group">--}}
+                                            {{--<div class="col-md-6" style="margin-top:10px">--}}
+                                            {{--<label><input type="checkbox" name="foreigndelegate"/>Any Foreign delegate?</label>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="col-md-6" style="margin-top:10px">--}}
+                                            {{--<label><input type="checkbox" name="specialneeds"/>Anybody with special needs?</label>--}}
+                                            {{--</div>--}}
+                                            {{--</div>--}}
+                                            <center>
+                                                <button type="submit" class="btn btn-flat btn-label-blue" style="margin-top:15px"> Register Batch</button>
+                                                <a href="{{url()->previous()}}" class="btn btn-flat btn-default">
+                                                    <i class="fa fa-angle-left" aria-hidden="true" style="margin-right:5px"></i> Back
+                                                </a>
+                                            </center>
+                                        </form>
                                     </div>
                                 @endif
                             </div>

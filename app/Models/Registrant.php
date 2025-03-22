@@ -11,7 +11,7 @@ class Registrant extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     protected $appends = ["online_payments","onsite_payments"];
 

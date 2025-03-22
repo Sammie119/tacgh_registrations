@@ -8,6 +8,6 @@ class RegistrantStaging extends Model
 {
     //
     protected $table = 'registrants_staging';
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
 }

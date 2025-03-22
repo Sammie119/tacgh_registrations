@@ -14,11 +14,26 @@
         {{--</button>--}}
         {{--<strong>{{status_message}}</strong>--}}
         {{--</div>--}}
-        <fieldset class="form-group">
-            <label for="venue">Venue Name* </label>
-            <input type="text" placeholder="Venue Name*" required name="venue" value="{{$venue->name}}" class="form-control">
-            {{--<small v-if="errors.venue" class="danger">{{errors.venue[0]}}</small>--}}
-        </fieldset>
+        <div class="row">
+            <div class="col-md-9">
+                <fieldset class="form-group">
+                    <label for="venue">Venue Name* </label>
+                    <input type="text" placeholder="Venue Name*" required name="venue" value="{{$venue->name}}" class="form-control">
+                    {{--<small v-if="errors.venue" class="danger">{{errors.venue[0]}}</small>--}}
+                </fieldset>
+            </div>
+            <div class="col-md-3">
+                <fieldset class="form-group">
+                    <label for="current_camp">Current Venue* </label>
+                    <select name="current_camp" required id="current_camp" class="form-control">
+                        <option @if($venue->current_camp == 1) selected @endif value="1">Yes</option>
+                        <option @if($venue->current_camp == 0) selected @endif value="0">No</option>
+                    </select>
+                    {{--<small v-if="errors.region" class="danger">{{errors.region[0]}}</small>--}}
+                </fieldset>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-6">
                 <fieldset class="form-group">

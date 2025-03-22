@@ -59,7 +59,7 @@ class AssignRoomController extends Controller
     {
 //        dd($request);
         $this->validate($request,[
-            'search'      =>  'required|alpha_num|min:6',
+            'search'      =>  'required|min:6',
         ]);
 
         //get applicant's info with the search value request
@@ -465,18 +465,20 @@ class AssignRoomController extends Controller
 
     public function manual(Request $request)
     {
+//        dd($request->all());
         $this->validate($request,[
             'r_id'      =>  'required|numeric|min:1',
             'r_app'      =>  'required|numeric|min:0',
-            'applicant_no'      =>  'required|alpha_num|min:6',
+            'applicant_no'      =>  'required|min:6',
         ]);
-        // dd($request->r_id);
+//         dd($request->r_id);
         $roomId = $request->r_id;
 
         $room = Room::where('id',$roomId)->first();
 
         //get applicant's info with the search value request
         $applicant = Registrant::where('reg_id',$request->applicant_no)->first();
+//        dd($applicant);
         if (!$applicant) {
            alert()->warning('This Registration Code does not exist', 'Warning')->persistent("Ok");
         }
@@ -506,12 +508,10 @@ class AssignRoomController extends Controller
             // $this->sendMessage('APOSACAMP'.date('y'), "$telephone",
             // "$fname $sname , you have been assigned to room $roomName in $resName, $blockName",
             // '1234');
-
             alert()->success("The Applicant's. Room No. is ".$roomName.", ". $resName.", ".$blockName, 'Success')->persistent("Ok");
         }
 
-        
-            return back()->withInput();
+        return back()->withInput();
     }
 
     public function transfer(Request $request)
@@ -519,7 +519,7 @@ class AssignRoomController extends Controller
         $this->validate($request,[
             'r_id'      =>  'required|numeric|min:1',
             'r_app'      =>  'required|numeric|min:0',
-            'applicant_no'      =>  'required|alpha_num|min:6',
+            'applicant_no'      =>  'required|min:6',
         ]);
         $roomId = $request->r_id;
 
@@ -571,6 +571,7 @@ class AssignRoomController extends Controller
 
     public function assignCamperRoomAuto(Registrant $applicant)
     {
+//        dd('room',$applicant);
         ($applicant->gender_id == 3) ? $gender='M':$gender='F';
 
         //Get Residences based on Registrant Gender
@@ -592,7 +593,6 @@ class AssignRoomController extends Controller
             })
             ->pluck('id')->toArray();
 
-
         // Get all unfull rooms based on gender and residence
         $unfull = Assignroom::where(function ($query) use ($gender) {
             $query->where('gender',"$gender")
@@ -605,7 +605,6 @@ class AssignRoomController extends Controller
             ->where('type',"Regular")
             ->orderBy('room_id','ASC')
             ->get();
-
 
         // Get current Residence info
 

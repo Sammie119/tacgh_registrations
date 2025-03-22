@@ -24,6 +24,7 @@ use App\Models\ViewRecord;
 use App\Models\ViewRegistrant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Token;
 use Illuminate\Support\Facades\Log;
@@ -58,7 +59,7 @@ class RegistrantController extends Controller
 //                ,"onlinepayments","onsitepayments"
 //                ->with(["onlinepayments"])
                 ->where(function($query){
-                $query->whereRaw('LENGTH(batch_no) != 0 or batch_no is not null');
+                $query->whereRaw(1);
             })->get();
 
 //            dd($registrants->first()->toArray());
@@ -92,7 +93,7 @@ class RegistrantController extends Controller
      */
     public function create()
     {
-        alert()->info('Enquiries?', 'Kindly contact 0555907610')->persistent("Okay");
+//        alert()->info('Enquiries?', 'Kindly contact 0248376160')->persistent("Okay");
 
         try {
         //Total Gender Rooms
@@ -161,41 +162,49 @@ class RegistrantController extends Controller
      */
     public function store(Request $request)
     {
-            $validatedData = $this->validate($request, [
-                'surname' => 'required|min:3',
-                'firstname' => 'required|min:3',
-                'gender' => 'required',
-                'dob' => 'required',
-                'nationality' => 'required_without:othernationality',//required if othernationality is not selected
-                'othernationality' => 'required_without:nationality',//required if nationality is not selected
-                'foreigndel' => 'required',
-                'maritalstatus' => 'required',
-                'localassembly' => 'required',
-                'telephone' => 'required',
-               // 'officechurch' => 'required',
-                'campercat' => 'required',
-                'agdlang' => 'required',
-                'campfee' => 'required',
+        $validatedData = $this->validate($request, [
+            'surname' => 'required|min:3',
+            'firstname' => 'required|min:3',
+            'gender' => 'required',
+            'dob' => 'required',
+            'nationality' => 'required_without:othernationality',//required if othernationality is not selected
+            'othernationality' => 'required_without:nationality',//required if nationality is not selected
+            'foreigndel' => 'required',
+            'maritalstatus' => 'required',
+            'localassembly' => 'required',
+            'telephone' => 'required',
+           // 'officechurch' => 'required',
+            'campercat' => 'required',
+            'agdlang' => 'required',
+            'campfee' => 'required',
 //                'specialaccom' => 'required_if:campfee,43',
-                'needCounseling'=>'required',
-                'areaOfCounseling'=>'required_if:needCounseling,1',
-                'disclaimer' => 'required',
-            ]);
+            'needCounseling'=>'required',
+            'areaOfCounseling'=>'required_if:needCounseling,1',
+            'disclaimer' => 'required',
+        ]);
 
 //                dd($validatedData);
 
-            try {
-            if (Registrant::where(['firstname' => $request['firstname'], 'dob' => $request['dob'], 'telephone' => $request['telephone']])->first()) {
+        try {
+            $check_registration = Registrant::where(['firstname' => $request['firstname'], 'dob' => $request['dob'], 'telephone' => $request['telephone']])->first();
+            if ($check_registration) {
                 alert()->info('It looks like you\'re already registered. Please contact the numbers on the registration page!', 'Hello')->persistent('Close');
                 return redirect()->back();
             }
 
-            if ($regmember = RegistrantStaging::firstOrCreate([
+            $currentYear = date('Y');
+            $count = DB::table('registrants_staging')->whereRaw("YEAR(created_at) = $currentYear")->count();
+            $ref_date = date("y");
+            $prefix = get_current_event()->code_prefix;
+//            dd(event_registration_code($count, 4, "$prefix-$ref_date-"));
+
+            $regmember = RegistrantStaging::firstOrCreate([
+                'reg_id' => event_registration_code(++$count, 4, "$prefix-$ref_date-"),
                 'surname' => $request['surname'],
                 'firstname' => $request['firstname'],
                 'gender_id' => $request['gender'],
                 'dob' => $request['dob'],
-                'telephone' => str_replace('+233','0',$request['telephone'])
+                'telephone' => $request['telephone']
                 ],
                 [
                 'email' => $request['email'],
@@ -209,7 +218,7 @@ class RegistrantController extends Controller
                 'region_id' => $request['region'],
                 'permaddress' => $request['permaddress'],
                 'officeaposa' => $request['officeaposa'],
-                  
+
                 'officechurch_id' => $request->has('officechurch')?$request['officechurch']:null,
                 'profession' => $request['profession'],
                 'businessaddress' => $request['businessaddress'],
@@ -223,8 +232,10 @@ class RegistrantController extends Controller
 //                'need_counseling' => $request['specialaccom'],
                 'disclaimer_id' => $request['disclaimer'] ? 1 : 0,
                 'apngrouping' => $request['apngrouping'],
-            ])
-            ) {
+                'event_id' => get_current_event()->id,
+            ]);
+
+            if($regmember){
 
                 $registrant = RegistrantStaging::find($regmember->id);
 
@@ -233,6 +244,7 @@ class RegistrantController extends Controller
                 $reg_status->camper_code = $registrant->reg_id;
                 $reg_status->rmodel = "App\\Models\\Record";
                 $reg_status->status = 0;
+                $reg_status->event_id = get_current_event()->id;
                 $reg_status->save();
 
                 //Generate Token to be able to add payment details
@@ -242,18 +254,25 @@ class RegistrantController extends Controller
                 Token::firstOrCreate([
                     'camper_code' => $registrant->reg_id,
                     'telephone' => $registrant->telephone,
-                    'token' => $token
+                    'token' => $token,
+                    'event_id' => get_current_event()->id,
                 ]);
 
 
 //                $reg = Registrant::create(collect($registrant)->except(['id', 'attending'])->toArray());
+                if($check_registration){
+                    $camper = $registrant;
+                } else {
+                    $camper = Record::create(collect($registrant)->except(['id', 'attending'])->toArray());
+                }
 
-                $camper = Record::create(collect($registrant)->except(['id', 'attending'])->toArray());
                 //dd($camper);
 //            $camper = Record::where('id',$registrant['id'])->first(['reg_id']);
-                $this->notifySMS($camper->telephone,
-                    'Congrats ' . $request['firstname'] . ' for your interest in Camp '.date("y").'. Registration is incomplete until full payment of camp fee is made. Reg. ID: ' . $camper->reg_id . ' login token : ' . $token,
-                    '1234');
+                get_current_event()->isPaymentRequired == 1 ?
+                    $msg = 'Congrats ' . $request['firstname'] . ' for your interest in '.get_current_event()->name.'. Registration is incomplete until full payment of camp fee is made.'."\n". ' Reg. ID : ' . $camper->reg_id. "\n". ' login token : ' . $token :
+                    $msg = 'Congrats ' . $request['firstname'] . ' for your interest in '.get_current_event()->name.'. Use the details below to complete your Registration process.'."\n". ' Reg. ID : ' . $camper->reg_id . "\n". ' login token : ' . $token;
+
+                $this->notifySMS($camper->telephone, $msg, '1234');
                 alert()->success('Thank you!. Reg_ID: ' . $camper->reg_id . '. A token will be sent to your phone shortly. Use the token to complete registration and make payment.', 'Success')->persistent('Close');
                 if ($request['existing']) {
                     return redirect('registeredcamper');
@@ -658,9 +677,7 @@ class RegistrantController extends Controller
     }
 
     public function registeredcamper(){
-
 //        return $this->closedcamp();
-
         $regions = LookupCode::RetrieveLookups(4);
         $area = LookupCode::RetrieveLookups(11);
 //        dd($areas);
@@ -805,12 +822,12 @@ class RegistrantController extends Controller
     public function verify_token(Request $request){
     try {
         $this->validate($request, [
-            'tphone' => 'required|numeric|digits_between:9,15',
+            'tphone' => 'required',
             'token' => 'required|string|min:5',
         ]);
 
         $check_token = Token::where('token', '=', $request['token'])
-            ->where('telephone', '=', $request['tphone'])
+            ->whereRaw("(telephone =  '".$request['tphone']."' OR camper_code = '".$request['tphone']."')")
             ->first();
         if ($check_token) {
             session(['user' => $check_token->camper_code]);
@@ -841,6 +858,7 @@ class RegistrantController extends Controller
      */
     public function camper_update_page($status=0)
     {
+//        dd($status);
         try{
             if (session()->has('user')){
 
@@ -910,10 +928,21 @@ class RegistrantController extends Controller
                         alert()->success("Congratulations, you have been authorized!","Success")->persistent("Close");
                     }
                 }
-
-                $payment_ref = 'ACF-'.$registrant->reg_id.'-'.BatchRegistration::batchnumber(10);
+                $code_prefix = get_current_event()->code_prefix;
+                $payment_ref = $code_prefix.'-'.$registrant->reg_id.'-'.BatchRegistration::batchnumber(10);
 
                 $profession = array_values(LookupCode::RetrieveLookups(10)->toArray());
+
+                if($status == 3 && $camper_confirmed && $amount_left == 0){
+                    if($camper_confirmed->room_id == null) {
+
+                        $assign_room = new AssignRoomController;
+                        $assign_room->assignCamperRoomAuto($camper_confirmed);
+
+//                        dd($amount_left, $camper_confirmed);
+                    }
+                }
+
                 return view('camper.camperretrieveregistered', compact('registrant', 'gender', 'amount_to_pay', 'amount_left',
                     'yesno', 'maritalstatus', 'region', 'area', 'OfficeHeldInChurch', 'Camper','reg_status','total_paid',
                     'AGDLanguage', 'CampApplicableFee', 'SpecialAccomodation', 'profession', 'payments','status','registration','payment_ref'));
@@ -1355,5 +1384,27 @@ class RegistrantController extends Controller
     public function closedcamp(){
 //        alert()->info("It was great having you for Camp 2018. Registration is closed. See you at the next camp!", 'Info')->persistent('Close');
         alert()->info("It was great having you for Camp ".date('Y').". Registration for next year is opening soon!", 'Info')->persistent('Close');
+    }
+
+    public function confirmAttendee(Request $request)
+    {
+//        dd($request->all());
+        $reg = Registrant::find($request->reg_id);
+
+        $reg->update(['confirm_attendance' => 'Yes']);
+
+        $result = ['success' => $reg->firstname.' '.$reg->surname];
+        return response()->json(['result' => $result]);
+    }
+
+    public function removeConfirmAttendee(Request $request)
+    {
+//        dd($request->all());
+        $reg = Registrant::find($request->reg_id);
+
+        $reg->update(['confirm_attendance' => 'No']);
+
+        $result = ['success' => $reg->firstname.' '.$reg->surname];
+        return response()->json(['result' => $result]);
     }
 }

@@ -71,7 +71,7 @@
                     <a href="{{route('landing')}}"><img src="{{App::isLocal() ? asset('img/aposa-main_edit.png') : asset('public/img/aposa-main_edit.png')}}" alt="" class="sign-up-icon" style="width: 100px;"></a>
                 </div>
                 <div class="form-sub-header text-center">
-                    <h8>APOSA CAMP REGISTRATION</h8>
+                    <h8>{{ strtoupper(get_current_event()->name) }} REGISTRATION</h8>
                 </div>
                 <form role="form" method="POST" action="{{ route('registrant.store') }}">
                     {{ csrf_field() }}

@@ -10,7 +10,7 @@ class CampVenue extends Model
     //
 
     protected $fillable = [
-        'name','location','region_id','slug'
+        'name','location','region_id','slug','current_camp'
     ];
 
     protected $hidden = ['created_at','updated_at'];

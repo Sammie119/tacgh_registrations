@@ -24,7 +24,7 @@
                         <form method="POST" action="{{ route('registrant.verify_token') }}">
                             {{ csrf_field() }}
                             <div class="form-group{{ $errors->has('tphone') ? ' has-error' : '' }} first mb-4">
-                                <label for="tphone" class="control-label">Phone Number <span class="required">*</span></label>
+                                <label for="tphone" class="control-label">Phone Number/Reg. ID <span class="required">*</span></label>
                                 <input id="tphone" value="{{old('tphone')}}" type="text" class="form-control" name="tphone" required>
                             </div>
 
@@ -34,7 +34,6 @@
                             </div>
 
                             <button type="submit" value="Log In" class="btn btn-block btn-primary mt-4">Log In</button>
-
                         </form>
                     </div>
                 </div>
@@ -66,7 +65,6 @@
                             @endif
 
                             <button type="submit" value="Log In" class="btn btn-block btn-primary mt-4">Log In</button>
-
                         </form>
                     </div>
                 </div>

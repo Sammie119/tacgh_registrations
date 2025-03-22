@@ -230,7 +230,7 @@
 
 @section('content')
     <section style="margin-top: 50px;">
-        <div class="container" styl="border:1px solid teal;overflow: auto;height: 90%;">
+        <div class="container">
             {{--<div style="text-align: center; margin-bottom: 30px">--}}
                 {{--<img src="{{asset('img/aposa-main_edit.png')}}" style="text-align: center;max-width:200px;"/>--}}
             {{--</div>--}}
@@ -251,8 +251,8 @@
                         <form id="msform">
                             <!-- Tittle -->
                             <div class="mt-4">
-                                <h2>APOSA Camp Registration Process</h2>
-                                <p>You can view your camp registration status here</p>
+                                <h2>{{ get_current_event()->name }} Registration Process</h2>
+                                <p>You can view your registration status here</p>
                             </div>
                             {{--@php--}}
                                 {{--$status = 0;--}}
@@ -371,7 +371,7 @@
                                 </fieldset>
                             @elseif($status == 1)
                                 <fieldset>
-                                    <h5 class="text-center mb-4">Verify Camp registration details.</h5>
+                                    <h5 class="text-center mb-4">Verify registration details.</h5>
                                     <form role="form" method="POST" action="{{ route('registrant.steps_save',[1]) }}">
                                         {{ csrf_field() }}
                                         <div class="row row-fit"><div class="form-group">
@@ -476,7 +476,7 @@
                                                     Payment Details
                                                 </div>
                                                 <ul class="list-group list-group-flush">
-                                                    <li class="list-group-item"><strong>Camp Fee: </strong> GHS {{$amount_to_pay}}</li>
+                                                    <li class="list-group-item"><strong>Registration Fee: </strong> GHS {{$amount_to_pay}}</li>
                                                     <li class="list-group-item"><strong>Paid: </strong> GHS {{$total_paid}}</li>
                                                     <li class="list-group-item">
                                                         @if($amount_left >= 0)
@@ -556,7 +556,7 @@
                                     <div class="form-group">
                                         <div class="col-md-12 {{ $errors->has('paymentphone') ? ' has-error' : '' }}" style="margin-top:10px">
                                             {!! Form::label('paymentphone','You may call these numbers in case you need assistance:',['class'=>'form-label']) !!}
-                                            <div><i class="fa fa-info-circle"></i>&nbsp;0240189785 /0246768140 </div>
+                                            <div><i class="fa fa-info-circle"></i>&nbsp;0248376160 / 0558521306 </div>
                                         </div>
                                     </div>
 

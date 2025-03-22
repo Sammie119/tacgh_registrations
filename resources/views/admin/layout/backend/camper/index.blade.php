@@ -28,13 +28,14 @@
 {{--                                    <th>Chapter</th>--}}
                                     <th>Age</th>
                                     <th>Gender</th>
-                                    <th>Camper Category</th>
-                                    <th>Applicable fee</th>
+                                    <th>Event</th>
+                                    <th>Category</th>
 {{--                                    <th>Total Payment</th>--}}
-                                    <th>Room</th>
-                                    {{--<th>Special Accom.</th>--}}
+                                    <th>Phone</th>
                                     <th>Area</th>
                                     <th>Batch #</th>
+                                    <th>Room</th>
+                                    <th>Cfm?</th>
                                     <th>Action</th>
                                 </tr>
                                         </thead>
@@ -50,19 +51,26 @@
                                         <td>{{$registrant->campercat->FullName}}</td>
                                         <td>{{$registrant->campfee->fee_tag." - GHS ".$registrant->campfee->fee_amount}}</td>
 {{--                                        <td>{{$registrant->online_payments + $registrant->onsite_payments}}</td>--}}
-                                        <td>{{$registrant->room_id}}
-                                            @if($registrant->room_id > 0)
-                                            {{$registrant->room->block->name}}, Room #: {{$registrant->room->room_no}}
-                                        @else
-                                        -
-                                        @endif</td>
-{{--                                        <td>{{$registrant->specialaccom->FullName}}</td>--}}
+                                        <td>{{$registrant->telephone}}</td>
                                         <td>{{$registrant->area->FullName}}</td>
                                         <td>{{$registrant->batch_no}}</td>
-                                        <td>
-                                            <a class="btn btn-success btn-flat" href="{{ route('camper.nonpaidindividual') }}"
+                                        <td>{{$registrant->room_id}}
+                                            @if($registrant->room_id > 0)
+                                                {{$registrant->room->block->name}}, Room #: {{$registrant->room->room_no}}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>{{ $registrant->confirm_attendance }}</td>
+                                        <td nowrap>
+                                            <button class="btn btn-info btn-flat" title="Confirm" onclick="myFunction({{$registrant->id}})">
+                                                <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
+                                            </button>
+{{--                                            <input type="hidden" id="reg_id{{ $registrant->id }}" value="{{ $registrant->id }}">--}}
+
+                                            <a class="btn btn-success btn-flat" title="Process" href="{{ route('camper.nonpaidindividual') }}"
                                                onclick="event.preventDefault(); document.getElementById('indiv-form{{$registrant->id}}').submit();">
-                                                Process
+                                                <i class="fa fa-sign-in" aria-hidden="true"></i>
                                             </a>
 
                                             <form id="indiv-form{{$registrant->id}}" action="{{ route('camper.nonpaidindividual') }}" method="GET" style="display: none;">
@@ -296,5 +304,79 @@
 
             });
         })
+
+        function myFunction(id) {
+            let reg_id = id;
+            swal({
+                title: "Are you sure?",
+                text: "Do you want to Confirm the Arrival of this Attendee?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: 'btn-danger',
+                confirmButtonText: 'Yes, Confirm!',
+                cancelButtonText: "No, Remove",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        // type:'GET',
+                        // url:'https://randomuser.me/api/',
+                        url: 'confirm_attendee',
+                        method: 'post',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            reg_id
+                        },
+                        success: function(data) {
+                            swal({
+                                title: "Attendee Confirmed",
+                                text: "You have Confirmed " + data.result.success,
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonText: 'OK',
+                            },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    location.reload();
+                                }
+                            })
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        // type:'GET',
+                        // url:'https://randomuser.me/api/',
+                        url: 'remove_confirm_attendee',
+                        method: 'post',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            reg_id
+                        },
+                        success: function(data) {
+                            swal({
+                                title: "Confirmation Reversed",
+                                text: "You have Reversed the Confirmation of " + data.result.success,
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonText: 'OK',
+                            },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    location.reload();
+                                }
+                            })
+                        }
+                    });
+                }
+            });
+        }
     </script>
 @endsection
