@@ -8,7 +8,7 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>APOSA Campmeeting {{date('Y')}}</title>
+  <title>{{ get_current_event()->name }}</title>
   @yield('beforeAllCss')
   <link rel="icon" href="{{ App::isLocal() ? asset('img/aposa-favicon.png') : asset('public/img/aposa-favicon.png') }}" type="image/x-icon">
   <!-- Bootstrap 3.3.6 -->
@@ -49,9 +49,9 @@
     <!-- Logo -->
     <a href="#" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>ACM</b></span>
+      <span class="logo-mini"><b>{{get_current_event()->code_prefix}}</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>APOSA</b>Camp Meeting</span>
+      <span class="logo-lg"><b>{{ get_current_event()->name }}</b></span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -124,11 +124,11 @@
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
 
-      <b style="margin-right:30px;">Supported by <a href="http://www.makerzgroup.com" target="_blank">Makerz Systems</a></b>
-      <b>Version</b> 3.0.0
+{{--      <b style="margin-right:30px;"><a href="" >TAC-GH</a></b>--}}
+      <b>Version</b> 4.0.0
     </div>
     <strong>Copyright &copy; <?php echo date('Y');?>
-      <a href="#">Apostolic Church, Ghana</a>.
+      <a href="https://www.theapostolicchurch.org.gh" target="_blank">The Apostolic Church-Ghana</a>.
     </strong> All rights reserved.
   </footer>
 

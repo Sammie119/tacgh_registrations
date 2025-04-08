@@ -55,7 +55,8 @@ class RegistrantController extends Controller
             // $registrants = Registrant::participants(0)->whereRaw('LENGTH(batch_no) = 0 or batch_no is null')->get();
 
 //            dd(Registrant::where(['reg_id'=>'ACM0021'])->get());
-            $data['registrants'] = Registrant::with('gender','maritalstatus','campercat','campfee',"onlinepayments","onsitepayments")
+            $event = get_current_event()->id;
+            $data['registrants'] = Registrant::where('event_id', $event)->with('gender','maritalstatus','campercat','campfee',"onlinepayments","onsitepayments")
 //                ,"onlinepayments","onsitepayments"
 //                ->with(["onlinepayments"])
                 ->where(function($query){
@@ -162,16 +163,17 @@ class RegistrantController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         $validatedData = $this->validate($request, [
             'surname' => 'required|min:3',
             'firstname' => 'required|min:3',
             'gender' => 'required',
             'dob' => 'required',
-            'nationality' => 'required_without:othernationality',//required if othernationality is not selected
-            'othernationality' => 'required_without:nationality',//required if nationality is not selected
-            'foreigndel' => 'required',
+            'othernationality' => 'required',//required if othernationality is not selected
+            'otherdenomination' => 'required',//required if nationality is not selected
+//            'foreigndel' => 'required',
             'maritalstatus' => 'required',
-            'localassembly' => 'required',
+            'food_preference' => 'required',
             'telephone' => 'required',
            // 'officechurch' => 'required',
             'campercat' => 'required',
@@ -208,11 +210,11 @@ class RegistrantController extends Controller
                 ],
                 [
                 'email' => $request['email'],
-                'nationality' => (isset($request['nationality']) && !is_numeric($request['nationality'])) ? $request['nationality'] : $request['othernationality'],
-                'foreigndel_id' => $request['foreigndel'],
+                'nationality' => $request['othernationality'],
+                'foreigndel_id' => 'No', //$request['foreigndel'],
                 'maritalstatus_id' => $request['maritalstatus'],
                 'chapter' => $request['chapter'],
-                'localassembly' => $request['localassembly'],
+                'food_preference' => $request['food_preference'],
                 'denomination' => (isset($request['denomination']) && !is_numeric($request['denomination'])) ? $request['denomination'] : $request['otherdenomination'],
                 'area_id' => $request['area'],
                 'region_id' => $request['region'],
@@ -225,6 +227,7 @@ class RegistrantController extends Controller
                 'studentaddress' => $request['studentaddress'],
                 'campercat_id' => $request['campercat'],
                 'agdlang_id' => $request['agdlang'],
+//                'agdleader_id' => $request['agdleader'],
                 'need_counseling' => $request['needCounseling'],
                 'area_of_counseling' => $request['areaOfCounseling'],
 //                'ambassadorphone' => $request['ambassadorphone'],
@@ -364,11 +367,11 @@ class RegistrantController extends Controller
                     'firstname' => 'required|min:3',
                     'gender_id' => 'required',
                     'dob' => 'required',
-                    'nationality' => 'required_without:othernationality',//required if othernationality is not selected
-                    'othernationality' => 'required_without:nationality',//required if nationality is not selected
-                    'foreigndel_id' => 'required',
+//                    'nationality' => 'required_without:othernationality',//required if othernationality is not selected
+                    'othernationality' => 'required',//required if nationality is not selected
+//                    'foreigndel_id' => 'required',
                     'maritalstatus_id' => 'required',
-                    'localassembly' => 'required',
+                    'food_preference' => 'required',
                     'denomination' => 'required_without:otherdenomination',
                     'otherdenomination' => 'required_without:denomination|required_if:denomination,2',
                     'telephone' => 'required',
@@ -383,11 +386,11 @@ class RegistrantController extends Controller
                 $registrant->firstname = $request['firstname'];
                 $registrant->gender_id = $request['gender_id'];
                 $registrant->dob = $request['dob'];
-                $registrant->nationality = (isset($request['nationality']) && !is_numeric($request['nationality'])) ? $request['nationality'] : $request['othernationality'];
-                $registrant->foreigndel_id = $request['foreigndel_id'];
+                $registrant->nationality = $request['othernationality'];
+                $registrant->foreigndel_id = 'No'; //$request['foreigndel_id'];
                 $registrant->maritalstatus_id = $request['maritalstatus_id'];
                 $registrant->chapter = $request['chapter'];
-                $registrant->localassembly = $request['localassembly'];
+                $registrant->food_preference = $request['food_preference'];
                 $registrant->denomination = (isset($request['denomination']) && !is_numeric($request['denomination'])) ? $request['denomination'] : $request['otherdenomination'];
                 $registrant->area_id = $request['area_id'];
                 $registrant->region_id = $request['region_id'];
@@ -401,7 +404,7 @@ class RegistrantController extends Controller
                 $registrant->studentaddress = $request['studentaddress'];
                 $registrant->campercat_id = $request['campercat_id'];
                 $registrant->agdlang_id = $request['agdlang_id'];
-                $registrant->agdleader_id = $request['agdleader_id'];
+//                $registrant->agdleader_id = $request['agdleader'];
                 $registrant->ambassadorname = $request['ambassadorname'];
                 $registrant->ambassadorphone = $request['ambassadorphone'];
                 $registrant->campfee_id = $request['campfee_id'];
@@ -425,7 +428,7 @@ class RegistrantController extends Controller
                 $rec->foreigndel_id = $request['foreigndel_id'];
                 $rec->maritalstatus_id = $request['maritalstatus_id'];
                 $rec->chapter = $request['chapter'];
-                $rec->localassembly = $request['localassembly'];
+                $rec->food_preference = $request['food_preference'];
                 $rec->denomination = (isset($request['denomination']) && !is_numeric($request['denomination'])) ? $request['denomination'] : $request['otherdenomination'];
                 $rec->area_id = $request['area_id'];
                 $rec->region_id = $request['region_id'];
@@ -439,7 +442,7 @@ class RegistrantController extends Controller
                 $rec->studentaddress = $request['studentaddress'];
                 $rec->campercat_id = $request['campercat_id'];
                 $rec->agdlang_id = $request['agdlang_id'];
-                $rec->agdleader_id = $request['agdleader_id'];
+//                $rec->agdleader_id = $request['agdleader'];
                 $rec->ambassadorname = $request['ambassadorname'];
                 $rec->ambassadorphone = $request['ambassadorphone'];
                 $rec->campfee_id = $request['campfee_id'];
@@ -928,8 +931,8 @@ class RegistrantController extends Controller
                         alert()->success("Congratulations, you have been authorized!","Success")->persistent("Close");
                     }
                 }
-                $code_prefix = get_current_event()->code_prefix;
-                $payment_ref = $code_prefix.'-'.$registrant->reg_id.'-'.BatchRegistration::batchnumber(10);
+//                $code_prefix = get_current_event()->code_prefix;
+                $payment_ref = 'TACGH-'.$registrant->reg_id.'-'.BatchRegistration::batchnumber(10);
 
                 $profession = array_values(LookupCode::RetrieveLookups(10)->toArray());
 
@@ -979,13 +982,14 @@ class RegistrantController extends Controller
         try{
 
         if ($step == 0) {
+//            dd($request->all());
             $this->validate($request, [
                 'surname' => 'required|string|min:3',
                 'firstname' => 'required|string|min:3',
                 'gender' => 'required|integer',
                 'dob' => 'required|string',
-                'nationality' => 'required_without:othernationality',//required if othernationality is not selected
-                'othernationality' => 'required_without:nationality',//required if nationality is not selected
+//                'nationality' => 'required_without:othernationality',//required if othernationality is not selected
+                'othernationality' => 'required',//required if nationality is not selected
                 'maritalstatus' => 'required',
                 'permaddress' => 'nullable|string',
                 'businessadress' => 'nullable|string',
@@ -993,6 +997,7 @@ class RegistrantController extends Controller
                 'telephone' => 'required|numeric',
                 'email' => 'nullable|email',
                 'profession' => 'nullable|string',
+                'food_preference' => 'required',
             ]);
             $camper_code = session('user');
 
@@ -1001,7 +1006,7 @@ class RegistrantController extends Controller
                 'firstname' => $request['firstname'],
                 'gender_id' => $request['gender'],
                 'dob' => $request['dob'],
-                'nationality' => (isset($request['nationality']) && !is_numeric($request['nationality'])) ? $request['nationality'] : $request['othernationality'],
+                'nationality' => $request['othernationality'],
                 'foreigndel_id' => $request['foreigndel'],
                 'maritalstatus_id' => $request['maritalstatus'],
                 'permaddress' => $request['permaddress'],
@@ -1010,6 +1015,7 @@ class RegistrantController extends Controller
                 'profession' => $request['profession'],
                 'businessaddress' => $request['businessaddress'],
                 'studentaddress' => $request['studentaddress'],
+                'food_preference' => $request['food_preference'],
             ]);
             if ($camper_info) {
 
@@ -1039,8 +1045,7 @@ class RegistrantController extends Controller
         elseif ($step == 1) {
             $this->validate($request, [
 //                'chapter' => 'nullable|string',
-                'foreigndel' => 'required|numeric',
-                'localassembly' => 'required',
+//                'foreigndel' => 'required|numeric',
                 'denomination' => 'required_without:otherdenomination',
                 'otherdenomination' => 'required_without:denomination|required_if:denomination,2',
 //                'area' => 'nullable|numeric',
@@ -1060,7 +1065,6 @@ class RegistrantController extends Controller
             $camper_info = Record::where('reg_id', '=', $camper_code)->update([
                 'chapter' => $request['chapter'],
                 'foreigndel_id' => $request['foreigndel'],
-                'localassembly' => $request['localassembly'],
                 'denomination' => (isset($request['denomination']) && !is_numeric($request['denomination'])) ? $request['denomination'] : $request['otherdenomination'],
                 'area_id' => $request['area'],
                 'region_id' => $request['region'],
@@ -1068,7 +1072,7 @@ class RegistrantController extends Controller
                 'officechurch_id' => $request['officechurch'],
                 'campercat_id' => $request['campercat'],
                 'agdlang_id' => $request['agdlang'],
-                'agdleader_id' => $request['agdleader'],
+//                'agdleader_id' => $request['agdleader'],
                 'ambassadorname' => $request['ambassadorname'],
                 'ambassadorphone' => $request['ambassadorphone'],
                 'campfee_id' => $request['campfee'],
@@ -1102,7 +1106,7 @@ class RegistrantController extends Controller
 
                     'chapter' => $request['chapter'],
                     'foreigndel_id' => $request['foreigndel'],
-                    'localassembly' => $request['localassembly'],
+                    'food_preference' => $request['food_preference'],
                     'denomination' => (isset($request['denomination']) && !is_numeric($request['denomination'])) ? $request['denomination'] : $request['otherdenomination'],
                     'area_id' => $request['area'],
                     'region_id' => $request['region'],
@@ -1110,7 +1114,7 @@ class RegistrantController extends Controller
                     'officechurch_id' => $request['officechurch'],
                     'campercat_id' => $request['campercat'],
                     'agdlang_id' => $request['agdlang'],
-                    'agdleader_id' => $request['agdleader'],
+//                    'agdleader_id' => $request['agdleader'],
                     'ambassadorname' => $request['ambassadorname'],
                     'ambassadorphone' => $request['ambassadorphone'],
                     'campfee_id' => $request->campfee,
@@ -1134,7 +1138,7 @@ class RegistrantController extends Controller
 
                     'chapter' => $request['chapter'],
                     'foreigndel_id' => $request['foreigndel'],
-                    'localassembly' => $request['localassembly'],
+                    'food_preference' => $request['food_preference'],
                     'denomination' => (isset($request['denomination']) && !is_numeric($request['denomination'])) ? $request['denomination'] : $request['otherdenomination'],
                     'area_id' => $request['area'],
                     'region_id' => $request['region'],
@@ -1142,7 +1146,7 @@ class RegistrantController extends Controller
                     'officechurch_id' => $request['officechurch'],
                     'campercat_id' => $request['campercat'],
                     'agdlang_id' => $request['agdlang'],
-                    'agdleader_id' => $request['agdleader'],
+//                    'agdleader_id' => $request['agdleader'],
                     'ambassadorname' => $request['ambassadorname'],
                     'ambassadorphone' => $request['ambassadorphone'],
                     'campfee_id' => $request->campfee,

@@ -230,6 +230,13 @@
 
 @section('content')
     <section style="margin-top: 50px;">
+        @if ($errors->any())
+            <ul class="get-alert">
+                @foreach ($errors->all() as $error)
+                    <span class="text-danger"><li>{{ $error }}</li></span>
+                @endforeach
+            </ul>
+        @endif
         <div class="container">
             {{--<div style="text-align: center; margin-bottom: 30px">--}}
                 {{--<img src="{{asset('img/aposa-main_edit.png')}}" style="text-align: center;max-width:200px;"/>--}}
@@ -315,20 +322,25 @@
                                                     {!! Form::text('profession',$registrant->profession,['class'=>'form-control','id'=>'profession']) !!}
                                                 </div>
 {{--                                                </div>--}}
-                                                <div class="col-md-6 {{ $errors->has('nationality') ? ' has-error' : '' }}" style="margin-top:9px">
+                                                <div class="col-md-4 {{ $errors->has('nationality') ? ' has-error' : '' }}" style="margin-top:9px">
                                                     {!! Form::label('nationality','Nationality:',['class'=>'form-label required']) !!}
-                                                    <label style="margin-left: 10px; margin-right: 5px;">
-                                                        <input type="radio" value="Ghanaian" id="ghana" class="flat-red" name="nationality" {{ ($registrant->nationality == 'Ghanaian') ? 'checked' : '' }}> Ghanaian
-                                                    </label>
-                                                    <label style="margin-top: 0px; margin-right: 5px;">
-                                                        <input type="radio" class="flat-red" id="others" value="2" name="nationality" {{ ($registrant->nationality == '2') ? 'checked' : '' }}> Other
-                                                    </label>
-                                                    <input type="text" id="othernationality" name="othernationality" class="form-control" style="float:right" {{ ($registrant->nationality != 'Ghanaian')?$registrant->nationality : '' }}/>
+{{--                                                    <label style="margin-left: 10px; margin-right: 5px;">--}}
+{{--                                                        <input type="radio" value="Ghanaian" id="ghana" class="flat-red" name="nationality" {{ ($registrant->nationality == 'Ghanaian') ? 'checked' : '' }}> Ghanaian--}}
+{{--                                                    </label>--}}
+{{--                                                    <label style="margin-top: 0px; margin-right: 5px;">--}}
+{{--                                                        <input type="radio" class="flat-red" id="others" value="2" name="nationality" {{ ($registrant->nationality == '2') ? 'checked' : '' }}> Other--}}
+{{--                                                    </label>--}}
+                                                    <input type="text" id="othernationality" name="othernationality" class="form-control" style="float:right" value="{{ $registrant->nationality }}"/>
                                                 </div>
 
-                                                <div class="col-md-6 {{ $errors->has('permaddress') ? ' has-error' : '' }}" style="margin-top:10px">
+                                                <div class="col-md-4 {{ $errors->has('permaddress') ? ' has-error' : '' }}" style="margin-top:10px">
                                                     {!! Form::label('permaddress','Permanent Address:',['class'=>'form-label']) !!}
                                                     {!! Form::text('permaddress',$registrant->permaddress,['class'=>'form-control']) !!}
+                                                </div>
+
+                                                <div class="col-md-4 {{ $errors->has('food_preference') ? ' has-error' : '' }}" style="margin-top:10px">
+                                                    {!! Form::label('food_preference','Food Preference',['class'=>'form-label']) !!}
+                                                    {!! Form::select('food_preference',['Choose...'=>'Choose...','Non Vegetarian'=>'Non Vegetarian', 'Vegetarian'=>'Vegetarian'],$registrant->food_preference,['class'=>'form-select','required']) !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -375,34 +387,34 @@
                                     <form role="form" method="POST" action="{{ route('registrant.steps_save',[1]) }}">
                                         {{ csrf_field() }}
                                         <div class="row row-fit"><div class="form-group">
-                                                <div class="col-md-3 {{ $errors->has('chapter') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                    {!! Form::label('chapter','Chapter:',['class'=>'form-label']) !!}
-                                                    {!! Form::text('chapter',$registrant->chapter,['class'=>'form-control']) !!}
-                                                </div>
-                                                <div class="col-md-3 {{ $errors->has('foreigndel') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                    {!! Form::label('foreigndel','Foreign delegate?',['class'=>'form-label required']) !!}
-                                                    {!! Form::select('foreigndel',$yesno->prepend('Choose...',''),$registrant->foreigndel_id,['class'=>'form-control']) !!}
-                                                </div>
-                                                <div class="col-md-3 {{ $errors->has('localassembly') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                    {!! Form::label('localassembly','Local Assembly:',['class'=>'form-label required']) !!}
-                                                    {!! Form::text('localassembly',$registrant->localassembly,['class'=>'form-control']) !!}
-                                                </div>
-                                                <div class="col-md-3 {{ $errors->has('area') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                    {!! Form::label('area','Area:',['class'=>'form-label']) !!}
-                                                    {!! Form::select('area',$area->prepend('Choose...',''),$registrant->area_id,['class'=>'form-control  select2']) !!}
-                                                </div>
-                                                <div class="col-md-3 {{ $errors->has('region') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                    {!! Form::label('region','Region:',['class'=>'form-label']) !!}
-                                                    {!! Form::select('region',$region->prepend('Choose...',''),$registrant->region_id,['class'=>'form-control select2']) !!}
-                                                </div>
-                                                <div class="col-md-3 {{ $errors->has('officechurch') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                    {!! Form::label('officechurch','Office Held in Church:',['class'=>'form-label required']) !!}
-                                                    {!! Form::select('officechurch',$OfficeHeldInChurch->prepend('Choose...',''),$registrant->officechurch_id,['class'=>'form-control select2 padded']) !!}
-                                                </div>
-                                                <div class="col-md-3 {{ $errors->has('officeaposa') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                    {!! Form::label('officeaposa','Office Held at APOSA (if any):',['class'=>'form-label']) !!}
-                                                    {!! Form::text('officeaposa',$registrant->officeaposa,['class'=>'form-control']) !!}
-                                                </div>
+{{--                                                <div class="col-md-3 {{ $errors->has('chapter') ? ' has-error' : '' }}" style="margin-top:10px">--}}
+{{--                                                    {!! Form::label('chapter','Chapter:',['class'=>'form-label']) !!}--}}
+{{--                                                    {!! Form::text('chapter',$registrant->chapter,['class'=>'form-control']) !!}--}}
+{{--                                                </div>--}}
+{{--                                                <div class="col-md-3 {{ $errors->has('foreigndel') ? ' has-error' : '' }}" style="margin-top:10px">--}}
+{{--                                                    {!! Form::label('foreigndel','Foreign delegate?',['class'=>'form-label required']) !!}--}}
+{{--                                                    {!! Form::select('foreigndel',$yesno->prepend('Choose...',''),$registrant->foreigndel_id,['class'=>'form-control']) !!}--}}
+{{--                                                </div>--}}
+{{--                                                <div class="col-md-3 {{ $errors->has('localassembly') ? ' has-error' : '' }}" style="margin-top:10px">--}}
+{{--                                                    {!! Form::label('localassembly','Local Assembly:',['class'=>'form-label required']) !!}--}}
+{{--                                                    {!! Form::text('localassembly',$registrant->localassembly,['class'=>'form-control']) !!}--}}
+{{--                                                </div>--}}
+{{--                                                <div class="col-md-3 {{ $errors->has('area') ? ' has-error' : '' }}" style="margin-top:10px">--}}
+{{--                                                    {!! Form::label('area','Area:',['class'=>'form-label']) !!}--}}
+{{--                                                    {!! Form::select('area',$area->prepend('Choose...',''),$registrant->area_id,['class'=>'form-control  select2']) !!}--}}
+{{--                                                </div>--}}
+{{--                                                <div class="col-md-3 {{ $errors->has('region') ? ' has-error' : '' }}" style="margin-top:10px">--}}
+{{--                                                    {!! Form::label('region','Region:',['class'=>'form-label']) !!}--}}
+{{--                                                    {!! Form::select('region',$region->prepend('Choose...',''),$registrant->region_id,['class'=>'form-control select2']) !!}--}}
+{{--                                                </div>--}}
+{{--                                                <div class="col-md-3 {{ $errors->has('officechurch') ? ' has-error' : '' }}" style="margin-top:10px">--}}
+{{--                                                    {!! Form::label('officechurch','Office Held in Church:',['class'=>'form-label required']) !!}--}}
+{{--                                                    {!! Form::select('officechurch',$OfficeHeldInChurch->prepend('Choose...',''),$registrant->officechurch_id,['class'=>'form-control select2 padded']) !!}--}}
+{{--                                                </div>--}}
+{{--                                                <div class="col-md-3 {{ $errors->has('officeaposa') ? ' has-error' : '' }}" style="margin-top:10px">--}}
+{{--                                                    {!! Form::label('officeaposa','Office Held at APOSA (if any):',['class'=>'form-label']) !!}--}}
+{{--                                                    {!! Form::text('officeaposa',$registrant->officeaposa,['class'=>'form-control']) !!}--}}
+{{--                                                </div>--}}
                                                 <div class="col-md-6 {{ $errors->has('denomination') ? ' has-error' : '' }}" style="margin-top:9px">
                                                     {!! Form::label('denomination','Denomination:',['class'=>'form-label required']) !!}
                                                     <label style="margin-left: 10px; margin-right: 5px;">
@@ -413,20 +425,20 @@
                                                     </label>
                                                     <input type="text" name="otherdenomination" class="form-control" style="float:right" value="{{ (old('otherdenomination'))}}"/>
                                                 </div>
-                                                <div class="col-md-3 {{ $errors->has('agdleader') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                    {!! Form::label('agdleader','Are you an AGD Leader?',['class'=>'form-label']) !!}
-                                                    {!! Form::select('agdleader',$yesno->prepend('Choose...',''),$registrant->agdleader_id,['class'=>'form-control']) !!}
-                                                </div>
-                                                <div class="col-md-3 {{ $errors->has('agdlang') ? ' has-error' : '' }}" style="margin-top:10px">
+{{--                                                <div class="col-md-3 {{ $errors->has('agdleader') ? ' has-error' : '' }}" style="margin-top:10px">--}}
+{{--                                                    {!! Form::label('agdleader','Are you an AGD Leader?',['class'=>'form-label']) !!}--}}
+{{--                                                    {!! Form::select('agdleader',$yesno->prepend('Choose...',''),$registrant->agdleader_id,['class'=>'form-control']) !!}--}}
+{{--                                                </div>--}}
+                                                <div class="col-md-6 {{ $errors->has('agdlang') ? ' has-error' : '' }}" style="margin-top:10px">
                                                     {!! Form::label('agdlang','AGD Language:',['class'=>'form-label required']) !!}
                                                     {!! Form::select('agdlang',$AGDLanguage->prepend('Choose...',''),$registrant->agdlang_id,['class'=>'form-control']) !!}
                                                 </div>
                                                 <div class="col-md-6 {{ $errors->has('campercat') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                    {!! Form::label('campercat','Camper:',['class'=>'form-label required']) !!}
+                                                    {!! Form::label('campercat','Event:',['class'=>'form-label required']) !!}
                                                     {!! Form::select('campercat',$Camper->prepend('Choose...',''),$registrant->campercat_id,['class'=>'form-control']) !!}
                                                 </div>
                                                 <div class="col-md-6 {{ $errors->has('campfee') ? ' has-error' : '' }}" style="margin-top:10px">
-                                                    {!! Form::label('campfee','Select Applicable Camp Fee:',['class'=>'form-label required']) !!}
+                                                    {!! Form::label('campfee','Select Applicable Event Fee:',['class'=>'form-label required']) !!}
                                                     {!! Form::select('campfee',$CampApplicableFee->prepend('Choose...',''),$registrant->campfee_id,['class'=>'form-control','id'=>'campfee','onchange'=>'showFee()']) !!}
                                                 </div>
                                             </div>
@@ -505,7 +517,7 @@
 
                                                         <div class="col-md-4">
                                                             <label for="amount" class="required">Amount Paid</label>
-                                                            <input type="text" class="form-control" required name="amount" id="amount" placeholder="Amount here..."/>
+                                                            <input type="number" step="0.01" min="0.1" class="form-control" required name="amount" id="amount" placeholder="Amount here..."/>
                                                             <input type="hidden" required name="amount_left" value="{{$amount_left}}"/>
                                                         </div>
                                                         <div class="col-md-3">
@@ -556,7 +568,7 @@
                                     <div class="form-group">
                                         <div class="col-md-12 {{ $errors->has('paymentphone') ? ' has-error' : '' }}" style="margin-top:10px">
                                             {!! Form::label('paymentphone','You may call these numbers in case you need assistance:',['class'=>'form-label']) !!}
-                                            <div><i class="fa fa-info-circle"></i>&nbsp;0248376160 / 0558521306 </div>
+                                            <div><i class="fa fa-info-circle"></i>&nbsp;+233248376160 / +233558521306 </div>
                                         </div>
                                     </div>
 

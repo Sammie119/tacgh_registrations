@@ -6,7 +6,7 @@
 @endsection
 @section('content')
     <section class="content-wrapper">
-        <section class="content-header">
+        <section class="content-header" style="margin-bottom: 30px">
             <h1>@if(isset($camper)){{$camper->surname. ' '.$camper->firstname}}@endif</h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -15,144 +15,144 @@
         </section>
         <div class="content">
             <div class="row">
-                    <div class="box box-solid">
-                        <div class="panel-body">
-                            @if($show_camper_details == 0)
+                <div class="box box-solid">
+                    <div class="panel-body">
+                        @if($show_camper_details == 0)
                             @if($registrants)
                                 <div class="table-responsive">
                                     <table id="dtrows" class="table table-striped">
-                                    <thead>
-                                <tr>
-                                    <th>Reg #</th>
-                                    <th>Name</th>
-{{--                                    <th>Chapter</th>--}}
-                                    <th>Age</th>
-                                    <th>Gender</th>
-                                    <th>Event</th>
-                                    <th>Category</th>
-{{--                                    <th>Total Payment</th>--}}
-                                    <th>Phone</th>
-                                    <th>Area</th>
-                                    <th>Batch #</th>
-                                    <th>Room</th>
-                                    <th>Cfm?</th>
-                                    <th>Action</th>
-                                </tr>
+                                        <thead>
+                                            <tr>
+                                                <th>Reg #</th>
+                                                <th>Name</th>
+                {{--                                    <th>Chapter</th>--}}
+                                                <th>Age</th>
+                                                <th>Gender</th>
+                                                <th>Event</th>
+                                                <th>Category</th>
+                {{--                                    <th>Total Payment</th>--}}
+                                                <th>Phone</th>
+                                                <th>Area</th>
+                                                <th>Batch #</th>
+                                                <th>Room</th>
+                                                <th>Cfm?</th>
+                                                <th>Action</th>
+                                            </tr>
                                         </thead>
-                                <tbody>
-                                @foreach($registrants as $registrant)
-                                    <tr>
-                                        {{--<td class="details-control"><a class="btn btn-primary" data-toggle="collapse" href="{{$registrant->id}}" aria-expanded="false" aria-controls="collapseExample">{{$registrant->reg_id}}</a></td>--}}
-                                        <td>{{$registrant->reg_id}}</td>
-                                        <td>{{strtoupper($registrant->surname) ." ".$registrant->firstname}}</td>
-{{--                                        <td>{{$registrant->chapter}}</td>--}}
-                                        <td>{{$registrant->dob}}<span>yrs</span></td>
-                                        <td>{{$registrant->gender->FullName}}</td>
-                                        <td>{{$registrant->campercat->FullName}}</td>
-                                        <td>{{$registrant->campfee->fee_tag." - GHS ".$registrant->campfee->fee_amount}}</td>
-{{--                                        <td>{{$registrant->online_payments + $registrant->onsite_payments}}</td>--}}
-                                        <td>{{$registrant->telephone}}</td>
-                                        <td>{{$registrant->area->FullName}}</td>
-                                        <td>{{$registrant->batch_no}}</td>
-                                        <td>{{$registrant->room_id}}
-                                            @if($registrant->room_id > 0)
-                                                {{$registrant->room->block->name}}, Room #: {{$registrant->room->room_no}}
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-                                        <td>{{ $registrant->confirm_attendance }}</td>
-                                        <td nowrap>
-                                            <button class="btn btn-info btn-flat" title="Confirm" onclick="myFunction({{$registrant->id}})">
-                                                <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
-                                            </button>
-{{--                                            <input type="hidden" id="reg_id{{ $registrant->id }}" value="{{ $registrant->id }}">--}}
+                                        <tbody>
+                                            @foreach($registrants as $registrant)
+                                                <tr>
+                                                    {{--<td class="details-control"><a class="btn btn-primary" data-toggle="collapse" href="{{$registrant->id}}" aria-expanded="false" aria-controls="collapseExample">{{$registrant->reg_id}}</a></td>--}}
+                                                    <td>{{$registrant->reg_id}}</td>
+                                                    <td>{{strtoupper($registrant->surname) ." ".$registrant->firstname}}</td>
+                {{--                                        <td>{{$registrant->chapter}}</td>--}}
+                                                    <td>{{$registrant->dob}}<span>yrs</span></td>
+                                                    <td>{{$registrant->gender->FullName}}</td>
+                                                    <td>{{$registrant->campercat->FullName}}</td>
+                                                    <td>{{$registrant->campfee->fee_tag." - GHS ".$registrant->campfee->fee_amount}}</td>
+                {{--                                        <td>{{$registrant->online_payments + $registrant->onsite_payments}}</td>--}}
+                                                    <td>{{$registrant->telephone}}</td>
+                                                    <td>{{$registrant->area->FullName}}</td>
+                                                    <td>{{$registrant->batch_no}}</td>
+                                                    <td>{{$registrant->room_id}}
+                                                        @if($registrant->room_id > 0)
+                                                            {{$registrant->room->block->name}}, Room #: {{$registrant->room->room_no}}
+                                                        @else
+                                                            -
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $registrant->confirm_attendance }}</td>
+                                                    <td nowrap>
+                                                        <button class="btn btn-info btn-flat" title="Confirm" onclick="myFunction({{$registrant->id}})">
+                                                            <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
+                                                        </button>
+                {{--                                            <input type="hidden" id="reg_id{{ $registrant->id }}" value="{{ $registrant->id }}">--}}
 
-                                            <a class="btn btn-success btn-flat" title="Process" href="{{ route('camper.nonpaidindividual') }}"
-                                               onclick="event.preventDefault(); document.getElementById('indiv-form{{$registrant->id}}').submit();">
-                                                <i class="fa fa-sign-in" aria-hidden="true"></i>
-                                            </a>
+                                                        <a class="btn btn-success btn-flat" title="Process" href="{{ route('camper.nonpaidindividual') }}"
+                                                           onclick="event.preventDefault(); document.getElementById('indiv-form{{$registrant->id}}').submit();">
+                                                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                                        </a>
 
-                                            <form id="indiv-form{{$registrant->id}}" action="{{ route('camper.nonpaidindividual') }}" method="GET" style="display: none;">
-                                                {{ csrf_field() }}
-                                                <input type="hidden" name="reg_id" value="{{$registrant->reg_id}}">
-                                            </form>
-                                        </td>
-                                        {{--<td class="payment-control" reg="{{$registrant->reg_id}}"><a class="btn btn-success" >Process</a></td>--}}
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                                        <form id="indiv-form{{$registrant->id}}" action="{{ route('camper.nonpaidindividual') }}" method="GET" style="display: none;">
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden" name="reg_id" value="{{$registrant->reg_id}}">
+                                                        </form>
+                                                    </td>
+                                                    {{--<td class="payment-control" reg="{{$registrant->reg_id}}"><a class="btn btn-success" >Process</a></td>--}}
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
 
                                 </div>
-                                @endif
-                            @elseif($show_camper_details == 1)
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="container-fluid">
-                                                    <div class="box-body">
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <p><strong>Registration ID :</strong> {{ $camper->reg_id }}</p>
-                                                                <p><strong>Age :</strong> {{ $camper->dob }} yrs</p>
+                            @endif
+                        @elseif($show_camper_details == 1)
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="container-fluid">
+                                            <div class="box-body">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <p><strong>Registration ID :</strong> {{ $camper->reg_id }}</p>
+                                                        <p><strong>Age :</strong> {{ $camper->dob }} yrs</p>
 
-                                                                <p><strong>Nationality :</strong> {{ $camper->nationality }}</p>
-                                                                <p><strong>Contact :</strong> {{ $camper->telephone }}</p>
+                                                        <p><strong>Nationality :</strong> {{ $camper->nationality }}</p>
+                                                        <p><strong>Contact :</strong> {{ $camper->telephone }}</p>
 
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                                <p><strong>Chapter :</strong> {{ isset($camper->chapter)?$camper->chapter:""}}</p>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <p><strong>Chapter :</strong> {{ isset($camper->chapter)?$camper->chapter:""}}</p>
 
-                                                                <p><strong>Camper Category :</strong>{{$camper->campercat->FullName}}</p>
-                                                                <p><strong>Camper Fee :</strong>{{$camper->campfee->fee_tag." - GHS ".$camper->campfee->fee_amount}}</p>
+                                                        <p><strong>Camper Category :</strong>{{$camper->campercat->FullName}}</p>
+                                                        <p><strong>Camper Fee :</strong>{{$camper->campfee->fee_tag." - GHS ".$camper->campfee->fee_amount}}</p>
 {{--                                                                <p><strong>{{($camper->campfee->id == 43) ?"Special Accomodation Fee: ".$camper->specialaccom->FullName:" "}} :</strong></p>--}}
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <hr/>
-                                    </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="col-lg-6 col-md-6">
-                                                    <table border="1" cellpadding="3" cellspacing="3" width="80%">
-                                                        <thead>
-                                                        <tr class="table-row">
-                                                            <th>Item</th>
-                                                            <th>Amount</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr><td> Online Payment</td><td>{{$total_online_payments}}</td></tr>
-                                                        <tr><td> Onsite Payment</td><td>{{$total_onsite_payments}}</td></tr>
-                                                        <tr><td>Total Payment</td><td>{{$total_online_payments + $total_onsite_payments}}</td></tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-                                                <div class="col-lg-6 col-md-6" >
-                                                    <h4>Authorization here!</h4>
-                                                    <form class="form-horizontal" role="form" method="POST" action="{{ route('registrant.camperauthorize') }}">
-                                                            {{ csrf_field() }}
-                                                        <input type="hidden" name="id" value="{{$camper->id}}"/>
-                                                        <input type="hidden" name="total_payments" value="{{$total_online_payments + $total_onsite_payments}}"/>
-                                                        {{--<input type="hidden" name="batch_no" value="{{$batch_no}}">--}}
-                                                        <input type="text" name="amount_paid"  placeholder="Amount paid" value="" class="form-control" required>
-
-                                                        <div><textarea  name="description" placeholder="Payment description" class="form-control" required></textarea><div></div>
-                                                            <textarea  name="comment" placeholder="Comment here" class="form-control" required></textarea>
-                                                        </div>
-                                                        <input type="submit" class="btn btn-success" value="Authorize Camper" style="margin-top:10px" />
-                                                    </form>
-                                                </div>
-                                            </div>
                                         </div>
-                        </div>
-                                @endif
-                        </div>
+                                    </div>
+                                    <hr/>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-6 col-md-6">
+                                            <table border="1" cellpadding="3" cellspacing="3" width="80%">
+                                                <thead>
+                                                <tr class="table-row">
+                                                    <th>Item</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr><td> Online Payment</td><td>{{$total_online_payments}}</td></tr>
+                                                <tr><td> Onsite Payment</td><td>{{$total_onsite_payments}}</td></tr>
+                                                <tr><td>Total Payment</td><td>{{$total_online_payments + $total_onsite_payments}}</td></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6" >
+                                            <h4>Authorization here!</h4>
+                                            <form class="form-horizontal" role="form" method="POST" action="{{ route('registrant.camperauthorize') }}">
+                                                    {{ csrf_field() }}
+                                                <input type="hidden" name="id" value="{{$camper->id}}"/>
+                                                <input type="hidden" name="total_payments" value="{{$total_online_payments + $total_onsite_payments}}"/>
+                                                {{--<input type="hidden" name="batch_no" value="{{$batch_no}}">--}}
+                                                <input type="text" name="amount_paid"  placeholder="Amount paid" value="" class="form-control" required>
+
+                                                <div><textarea  name="description" placeholder="Payment description" class="form-control" required></textarea><div></div>
+                                                    <textarea  name="comment" placeholder="Comment here" class="form-control" required></textarea>
+                                                </div>
+                                                <input type="submit" class="btn btn-success" value="Authorize Camper" style="margin-top:10px" />
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
+                </div>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

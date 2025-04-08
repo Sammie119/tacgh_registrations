@@ -62,6 +62,10 @@ class HomeController extends Controller
         $senior = $regular = $teen = $child = $males_paid = $females_paid = $juniorteen = $senior_teen_paid = $junior_teen_paid = $child_paid = 0;
         $students_fee = $regular_fee = $teens_fee = $children_fee = $special_accm = $non_residencial = $non_fee_paying = $seniorteen = 0;
 
+        // Event
+        $event = get_current_event()->id;
+//        dd($event);
+
         //Get Residences based on Registrant Gender
         $camp_venue = CampVenue::where('current_camp','=', 1)->pluck('id')->first();
 
@@ -77,7 +81,7 @@ class HomeController extends Controller
 //         dd($rooms->count());
         $registrants_paid = Registrant::participants(1)->get();
 //        dd($registrants_paid);
-        $registrants = Registrant::get();
+        $registrants = Registrant::where('event_id', $event)->get();
 
         $residences = DB::table('assignrooms')
                     ->join('residences', 'assignrooms.residence_id', '=', 'residences.id')
@@ -89,7 +93,7 @@ class HomeController extends Controller
         // dd($residences);exit();
         // dd($residences->where('id',30)->rooms->count());
 //        $payments = Payment::sum('amount_paid');
-        $onlinepayments = OnlinePayment::where(['approved'=>1,'payment_status'=>1])->sum('amount_paid');
+        $onlinepayments = OnlinePayment::where(['approved'=>1,'payment_status'=>1, 'event_id' => $event])->sum('amount_paid');
         if($onlinepayments){
             $onlinepayments =  number_format($onlinepayments, 2, '.', '');
         }
@@ -107,8 +111,8 @@ class HomeController extends Controller
         if($registrants->isNotEmpty()){ 
             $males = $registrants->where('gender_id',3)->count('id'); 
             $females = $registrants->where('gender_id',4)->count('id');
-            $senior = Registrant::where('campercat_id',25)->count('id');
-            $regular = Registrant::where('campercat_id',26)->count('id');
+            $senior = Registrant::where(['campercat_id' => 25, 'event_id' => $event])->count('id');
+            $regular = Registrant::where(['campercat_id' => 26, 'event_id' => $event])->count('id');
 //            $juniorteen = Registrant::where('campercat_id',130)->count('id');
 //            $seniorteen = Registrant::where('campercat_id',131)->count('id');
 //            $child = Registrant::where('campercat_id',28)->count('id');

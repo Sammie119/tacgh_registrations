@@ -167,8 +167,8 @@ class PaymentController extends Controller
     public function onlinepaymentrequest(){
 
         $amount = 0.01;
-        $itemname = "APOSACAMP FEE";
-        $clientref = "ACM00021-".BatchRegistration::token(4);
+        $itemname = get_current_event()->name." FEE";
+        $clientref = get_current_event()->code_prefix."00021-".BatchRegistration::token(4);
         $clientid = env('GTPAY_CLIENTID',0);
         $clientsecret = env('GTPAY_SECRET',0);
         $hashkey = env('GTPAY_HASH',0);
@@ -304,7 +304,7 @@ class PaymentController extends Controller
                 }
 
                 $amount = $request['amount'];
-                $itemname = "APOSACAMP FEE";
+                $itemname = strtoupper(get_current_event()->name)." FEE";
                 $clientref = $request['transaction_no'];//$request['batch_no']."-".BatchRegistration::token(12);
                 $clientid = env('GTPAY_CLIENTID',0);
                 $clientsecret = env('GTPAY_SECRET',0);

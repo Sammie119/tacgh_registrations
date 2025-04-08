@@ -17,7 +17,8 @@ class Registrant extends Model implements Auditable
 
     //Scoped methods
     public function scopeParticipants($query,$status){
-        return $query->where('confirmedpayment',$status)->with('gender','maritalstatus','campercat','campfee','specialaccom');
+        $event = get_current_event()->id;
+        return $query->where(['confirmedpayment'=> $status, 'event_id' => $event])->with('gender','maritalstatus','campercat','campfee','specialaccom');
     }
 
     public function scopeChapterLeaders($query){
@@ -29,7 +30,8 @@ class Registrant extends Model implements Auditable
     }
 
     public function scopePaid_applicants($query){
-        return $query->where('confirmedpayment', 1);
+        $event = get_current_event()->id;
+        return $query->where(['confirmedpayment' => 1, 'event_id' => $event]);
     }
     //Relationships
     //Lookup relationships

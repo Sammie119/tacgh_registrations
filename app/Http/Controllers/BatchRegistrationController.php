@@ -208,7 +208,7 @@ class BatchRegistrationController extends Controller
                         'dob' => \Carbon\Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value["dob"])),
                         'nationality' => $value["nationality"],
                         'maritalstatus_id' => $value["marital_status"],
-                        'localassembly' => $value["local_assembly"],
+                        'food_preference' => $value["local_assembly"],
                         'permaddress' => $value["permanent_address"],
                         'telephone' => $value["telephone"],
                         'email' => $value["email"],
@@ -471,7 +471,8 @@ class BatchRegistrationController extends Controller
                         'chapter'=>$request['chapter'],
                         'batch_no'=>event_registration_code(++$count2, 4, "B$prefix-$ref_date-"),
                         'ambassadorname'=>$request['ambassadorname'],
-                        'ambassadorphone'=>$request['ambassadorphone']
+                        'ambassadorphone'=>$request['ambassadorphone'],
+                        'event_id' => get_current_event()->id
                     ]);
 
                     $batchno = Batches::find($batch->id)->batch_no;//BatchRegistration::batchnumber(5)."-".$date->getTimestamp();
@@ -617,7 +618,8 @@ class BatchRegistrationController extends Controller
                     Token::firstOrCreate([
                         'camper_code' => $batchno,
                         'telephone' => $request['ambassadorphone'],
-                        'token' => $token
+                        'token' => $token,
+                        'event_id' => get_current_event()->id
                     ]);
                 }
 
@@ -763,7 +765,7 @@ class BatchRegistrationController extends Controller
                     'gender_id' =>'required',
                     'dob' =>'required',
                     'maritalstatus_id' =>'required',
-                    'localassembly' =>'required',
+                    'food_preference' =>'required',
                     'telephone' =>'required',
                     'officechurch_id' =>'required',
                     'campercat_id' =>'required',
@@ -813,7 +815,7 @@ class BatchRegistrationController extends Controller
                 $registrant->gender_id = $request['gender_id'];
                 $registrant->dob = $request['dob'];
                 $registrant->maritalstatus_id = $request['maritalstatus_id'];
-                $registrant->localassembly = $request['localassembly'];
+                $registrant->food_preference = $request['food_preference'];
                 $registrant->permaddress = $request['permaddress'];
                 $registrant->telephone = $request['telephone'];
                 $registrant->email = $request['email'];
@@ -990,7 +992,7 @@ class BatchRegistrationController extends Controller
                 'ambassadorphone' =>'required|numeric',
                 'area' =>'required|numeric',
                 'region' =>'required|numeric',
-                'localassembly' =>'required',
+                'food_preference' =>'required',
                 'denomination' =>'required_without:otherdenomination',
                 'otherdenomination'=>'required_without:denomination|required_if:denomination,2',
                 'surname' =>'required|array',
@@ -1053,7 +1055,7 @@ class BatchRegistrationController extends Controller
                 $rec['nationality'] = $request['nationality'][$a];
                 $rec['foreigndel_id'] = $request['foreigndel_'.$b];
                 $rec['maritalstatus_id'] = $request['maritalstatus_'.$b];
-                $rec['localassembly']=$request['localassembly'];
+                $rec['food_preference']=$request['food_preference'];
                 $rec['denomination']=(isset($request['denomination']) && !is_numeric($request['denomination'])) ? $request['denomination'] : $request['otherdenomination'];
                 $rec['area_id']=$request['area'];
                 $rec['region_id']=$request['region'];

@@ -79,6 +79,7 @@ Route::get('unblock', [UserController::class, 'unblock'])->name('user.unblock');
 //Route::post('mobappuserblock', [UserController::class, 'mobappuserblock'])->name('user.mobappuserblock');
 //Route::delete('mobappuserdestroy/{id}', [UserController::class, 'mobappuserdestroy'])->name('user.mobappuserdestroy');
 //Route::get('mobappuserunblock', [UserController::class, 'mobappuserunblock'])->name('user.mobappuserunblock');
+//Route::get('mobappuserunblock', [UserController::class, 'mobappuserunblock'])->name('user.mobappuserunblock');
 
 //Camper (Registrant) Management routes
 Route::resource('registrant', 'RegistrantController');

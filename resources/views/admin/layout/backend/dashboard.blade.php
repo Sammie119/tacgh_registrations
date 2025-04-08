@@ -363,202 +363,202 @@
 
       </div> --}}
 
-      <div class="row" style="margin-top: 30px">
-        <div class="col-md-6">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Meal Distributions</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-              <table class="table table-striped">
-                <tr>
-                  <th>Center</th>
-                  <th>Food Distributed</th>
-                </tr>
-                @if(sizeof($centres_infos) > 0)
-                  @foreach($centres_infos as $centres_info)
-                    <tr>
-                      <td>{{$centres_info->centre}}</td>
-                      <td>{{$centres_info->distributed}}</td>
-                    </tr>
-                  @endforeach
-                @else
-                  <tr><td colspan="2" style="text-align: center;">Empty</td></tr>
-                @endif
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row" style="margin-top: 30px">
-        <div class="col-md-6">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Camper Fee Types</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-              <table class="table table-striped">
-                <tr>
-                  <th style="width: 10px">#</th>
-                  <th>Type</th>
-                  <th>Total</th>
-                  <th>Percentage</th>
-                </tr>
-                <tr>
-                  <td>1.</td>
-                  <td>Non-Resident with supper</td>
-                  <td>
-                    {{ $students_fee }}
-                  </td>
-                  <td><span class="badge bg-green">
-                    @if($students_fee != 0)
-                        {{ round(($students_fee/$paid_applicants)*100, 1) }}%
-                      @else
-                        0%
-                      @endif
-                  </span></td>
-                </tr>
-                <tr>
-                  <td>2.</td>
-                  <td>Regular</td>
-                  <td>
-                    {{ $regular_fee }}
-                  </td>
-                  <td><span class="badge bg-green">
-                    @if($regular_fee != 0)
-                        {{ round(($regular_fee/$paid_applicants)*100, 1) }}%
-                      @else
-                        0%
-                      @endif
-                  </span></td>
-                </tr>
-                {{--<tr>--}}
-                {{--<td>3.</td>--}}
-                {{--<td>Teens</td>--}}
-                {{--<td>--}}
-                {{--{{ $teens_fee }}--}}
-                {{--</td>--}}
-                {{--<td><span class="badge bg-green">--}}
-                {{--@if($teens_fee != 0)--}}
-                {{--{{ round(($teens_fee/$paid_applicants)*100, 1) }}%--}}
-                {{--@else--}}
-                {{--0%--}}
-                {{--@endif--}}
-                {{--</span></td>--}}
-                {{--</tr>--}}
-                {{--<tr>--}}
-                {{--<td>4.</td>--}}
-                {{--<td>Child</td>--}}
-                {{--<td>--}}
-                {{--{{ $children_fee }}--}}
-                {{--</td>--}}
-                {{--<td><span class="badge bg-green">--}}
-                {{--@if($children_fee != 0)--}}
-                {{--{{ round(($children_fee/$paid_applicants)*100, 1) }}%--}}
-                {{--@else--}}
-                {{--0%--}}
-                {{--@endif--}}
-                {{--</span></td>--}}
-                {{--</tr>--}}
-                <tr>
-                  <td>5.</td>
-                  <td>Non-Residential</td>
-                  <td>
-                    {{ $non_residencial }}
-                  </td>
-                  <td><span class="badge bg-green">
-                    @if($non_residencial != 0)
-                        {{ round(($non_residencial/$paid_applicants)*100, 1) }}%
-                      @else
-                        0%
-                      @endif
-                  </span></td>
-                </tr>
-                <tr>
-                  <td>6.</td>
-                  <td>Non Fee Paying</td>
-                  <td>
-                    {{ $non_fee_paying }}
-                  </td>
-                  <td><span class="badge bg-green">
-                    @if($non_fee_paying != 0)
-                        {{ round(($non_fee_paying/$paid_applicants)*100, 1) }}%
-                      @else
-                        0%
-                      @endif
-                  </span></td>
-                </tr>
-                {{--<tr>--}}
-                {{--<td>7.</td>--}}
-                {{--<td>Special Accomodation</td>--}}
-                {{--<td>--}}
-                {{--{{ $special_accm }}--}}
-                {{--</td>--}}
-                {{--<td><span class="badge bg-green">--}}
-                {{--@if($special_accm != 0)--}}
-                {{--{{ round(($special_accm/$paid_applicants)*100, 1) }}%--}}
-                {{--@else--}}
-                {{--0%--}}
-                {{--@endif--}}
-                {{--</span></td>--}}
-                {{--</tr>--}}
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <div class="col-md-6">
-          <div class="box box-solid">
-            <div id="container" style="width:100%; height:400px;">
+{{--      <div class="row" style="margin-top: 30px">--}}
+{{--        <div class="col-md-6">--}}
+{{--          <div class="box">--}}
+{{--            <div class="box-header">--}}
+{{--              <h3 class="box-title">Meal Distributions</h3>--}}
+{{--            </div>--}}
+{{--            <!-- /.box-header -->--}}
+{{--            <div class="box-body no-padding">--}}
+{{--              <table class="table table-striped">--}}
+{{--                <tr>--}}
+{{--                  <th>Center</th>--}}
+{{--                  <th>Food Distributed</th>--}}
+{{--                </tr>--}}
+{{--                @if(sizeof($centres_infos) > 0)--}}
+{{--                  @foreach($centres_infos as $centres_info)--}}
+{{--                    <tr>--}}
+{{--                      <td>{{$centres_info->centre}}</td>--}}
+{{--                      <td>{{$centres_info->distributed}}</td>--}}
+{{--                    </tr>--}}
+{{--                  @endforeach--}}
+{{--                @else--}}
+{{--                  <tr><td colspan="2" style="text-align: center;">Empty</td></tr>--}}
+{{--                @endif--}}
+{{--              </table>--}}
+{{--            </div>--}}
+{{--          </div>--}}
+{{--        </div>--}}
+{{--      </div>--}}
+{{--      <div class="row" style="margin-top: 30px">--}}
+{{--        <div class="col-md-6">--}}
+{{--          <div class="box">--}}
+{{--            <div class="box-header">--}}
+{{--              <h3 class="box-title">Camper Fee Types</h3>--}}
+{{--            </div>--}}
+{{--            <!-- /.box-header -->--}}
+{{--            <div class="box-body no-padding">--}}
+{{--              <table class="table table-striped">--}}
+{{--                <tr>--}}
+{{--                  <th style="width: 10px">#</th>--}}
+{{--                  <th>Type</th>--}}
+{{--                  <th>Total</th>--}}
+{{--                  <th>Percentage</th>--}}
+{{--                </tr>--}}
+{{--                <tr>--}}
+{{--                  <td>1.</td>--}}
+{{--                  <td>Non-Resident with supper</td>--}}
+{{--                  <td>--}}
+{{--                    {{ $students_fee }}--}}
+{{--                  </td>--}}
+{{--                  <td><span class="badge bg-green">--}}
+{{--                    @if($students_fee != 0)--}}
+{{--                        {{ round(($students_fee/$paid_applicants)*100, 1) }}%--}}
+{{--                      @else--}}
+{{--                        0%--}}
+{{--                      @endif--}}
+{{--                  </span></td>--}}
+{{--                </tr>--}}
+{{--                <tr>--}}
+{{--                  <td>2.</td>--}}
+{{--                  <td>Regular</td>--}}
+{{--                  <td>--}}
+{{--                    {{ $regular_fee }}--}}
+{{--                  </td>--}}
+{{--                  <td><span class="badge bg-green">--}}
+{{--                    @if($regular_fee != 0)--}}
+{{--                        {{ round(($regular_fee/$paid_applicants)*100, 1) }}%--}}
+{{--                      @else--}}
+{{--                        0%--}}
+{{--                      @endif--}}
+{{--                  </span></td>--}}
+{{--                </tr>--}}
+{{--                --}}{{--<tr>--}}
+{{--                --}}{{--<td>3.</td>--}}
+{{--                --}}{{--<td>Teens</td>--}}
+{{--                --}}{{--<td>--}}
+{{--                --}}{{--{{ $teens_fee }}--}}
+{{--                --}}{{--</td>--}}
+{{--                --}}{{--<td><span class="badge bg-green">--}}
+{{--                --}}{{--@if($teens_fee != 0)--}}
+{{--                --}}{{--{{ round(($teens_fee/$paid_applicants)*100, 1) }}%--}}
+{{--                --}}{{--@else--}}
+{{--                --}}{{--0%--}}
+{{--                --}}{{--@endif--}}
+{{--                --}}{{--</span></td>--}}
+{{--                --}}{{--</tr>--}}
+{{--                --}}{{--<tr>--}}
+{{--                --}}{{--<td>4.</td>--}}
+{{--                --}}{{--<td>Child</td>--}}
+{{--                --}}{{--<td>--}}
+{{--                --}}{{--{{ $children_fee }}--}}
+{{--                --}}{{--</td>--}}
+{{--                --}}{{--<td><span class="badge bg-green">--}}
+{{--                --}}{{--@if($children_fee != 0)--}}
+{{--                --}}{{--{{ round(($children_fee/$paid_applicants)*100, 1) }}%--}}
+{{--                --}}{{--@else--}}
+{{--                --}}{{--0%--}}
+{{--                --}}{{--@endif--}}
+{{--                --}}{{--</span></td>--}}
+{{--                --}}{{--</tr>--}}
+{{--                <tr>--}}
+{{--                  <td>5.</td>--}}
+{{--                  <td>Non-Residential</td>--}}
+{{--                  <td>--}}
+{{--                    {{ $non_residencial }}--}}
+{{--                  </td>--}}
+{{--                  <td><span class="badge bg-green">--}}
+{{--                    @if($non_residencial != 0)--}}
+{{--                        {{ round(($non_residencial/$paid_applicants)*100, 1) }}%--}}
+{{--                      @else--}}
+{{--                        0%--}}
+{{--                      @endif--}}
+{{--                  </span></td>--}}
+{{--                </tr>--}}
+{{--                <tr>--}}
+{{--                  <td>6.</td>--}}
+{{--                  <td>Non Fee Paying</td>--}}
+{{--                  <td>--}}
+{{--                    {{ $non_fee_paying }}--}}
+{{--                  </td>--}}
+{{--                  <td><span class="badge bg-green">--}}
+{{--                    @if($non_fee_paying != 0)--}}
+{{--                        {{ round(($non_fee_paying/$paid_applicants)*100, 1) }}%--}}
+{{--                      @else--}}
+{{--                        0%--}}
+{{--                      @endif--}}
+{{--                  </span></td>--}}
+{{--                </tr>--}}
+{{--                --}}{{--<tr>--}}
+{{--                --}}{{--<td>7.</td>--}}
+{{--                --}}{{--<td>Special Accomodation</td>--}}
+{{--                --}}{{--<td>--}}
+{{--                --}}{{--{{ $special_accm }}--}}
+{{--                --}}{{--</td>--}}
+{{--                --}}{{--<td><span class="badge bg-green">--}}
+{{--                --}}{{--@if($special_accm != 0)--}}
+{{--                --}}{{--{{ round(($special_accm/$paid_applicants)*100, 1) }}%--}}
+{{--                --}}{{--@else--}}
+{{--                --}}{{--0%--}}
+{{--                --}}{{--@endif--}}
+{{--                --}}{{--</span></td>--}}
+{{--                --}}{{--</tr>--}}
+{{--              </table>--}}
+{{--            </div>--}}
+{{--            <!-- /.box-body -->--}}
+{{--          </div>--}}
+{{--          <!-- /.box -->--}}
+{{--        </div>--}}
+{{--        <div class="col-md-6">--}}
+{{--          <div class="box box-solid">--}}
+{{--            <div id="container" style="width:100%; height:400px;">--}}
 
-            </div>
-          </div>
-          {{--<script>--}}
-          {{--// $(function () { --}}
-          {{--Highcharts.chart('container', {--}}
-          {{--chart: {--}}
-          {{--type: 'column'--}}
-          {{--},--}}
-          {{--tooltip: {--}}
-          {{--backgroundColor: {--}}
-          {{--linearGradient: [0, 0, 0, 60],--}}
-          {{--stops: [--}}
-          {{--[0, '#FFFFFF'],--}}
-          {{--[1, '#E0E0E0']--}}
-          {{--]--}}
-          {{--},--}}
-          {{--style:{--}}
-          {{--color:"#000"--}}
-          {{--},--}}
-          {{--borderWidth: 1,--}}
-          {{--borderColor: '#AAA'--}}
-          {{--},--}}
-          {{--title: {--}}
-          {{--text: 'Comparison Summary Report'--}}
-          {{--},--}}
-          {{--xAxis: {--}}
-          {{--categories: ["Applicants", "Male", "Female", "Senior", "Regular", "Child"]--}}
-          {{--},--}}
-          {{--yAxis: {--}}
-          {{--title: {--}}
-          {{--text: 'Values'--}}
-          {{--}--}}
-          {{--},--}}
-          {{--series: [{--}}
-          {{--name: 'Total Registered Applicants',--}}
-          {{--data: [{{ $total_registrants }}, {{ $males }}, {{ $females }}, {{ $senior }},{{ $regular }},{{ $child }}]--}}
-          {{--}, {--}}
-          {{--name: 'Total Authorized Applicants',--}}
-          {{--data: [ {{ $paid_applicants }}, {{ $males_paid }}, {{ $females_paid }}, {{ $senior_paid }},{{ $regular_paid }}, {{ $teen_paid }},{{ $child_paid }}]--}}
-          {{--}]--}}
-          {{--});--}}
-          {{--// });--}}
-          {{--</script>--}}
-        </div>
-      </div>
+{{--            </div>--}}
+{{--          </div>--}}
+{{--          --}}{{--<script>--}}
+{{--          --}}{{--// $(function () { --}}
+{{--          --}}{{--Highcharts.chart('container', {--}}
+{{--          --}}{{--chart: {--}}
+{{--          --}}{{--type: 'column'--}}
+{{--          --}}{{--},--}}
+{{--          --}}{{--tooltip: {--}}
+{{--          --}}{{--backgroundColor: {--}}
+{{--          --}}{{--linearGradient: [0, 0, 0, 60],--}}
+{{--          --}}{{--stops: [--}}
+{{--          --}}{{--[0, '#FFFFFF'],--}}
+{{--          --}}{{--[1, '#E0E0E0']--}}
+{{--          --}}{{--]--}}
+{{--          --}}{{--},--}}
+{{--          --}}{{--style:{--}}
+{{--          --}}{{--color:"#000"--}}
+{{--          --}}{{--},--}}
+{{--          --}}{{--borderWidth: 1,--}}
+{{--          --}}{{--borderColor: '#AAA'--}}
+{{--          --}}{{--},--}}
+{{--          --}}{{--title: {--}}
+{{--          --}}{{--text: 'Comparison Summary Report'--}}
+{{--          --}}{{--},--}}
+{{--          --}}{{--xAxis: {--}}
+{{--          --}}{{--categories: ["Applicants", "Male", "Female", "Senior", "Regular", "Child"]--}}
+{{--          --}}{{--},--}}
+{{--          --}}{{--yAxis: {--}}
+{{--          --}}{{--title: {--}}
+{{--          --}}{{--text: 'Values'--}}
+{{--          --}}{{--}--}}
+{{--          --}}{{--},--}}
+{{--          --}}{{--series: [{--}}
+{{--          --}}{{--name: 'Total Registered Applicants',--}}
+{{--          --}}{{--data: [{{ $total_registrants }}, {{ $males }}, {{ $females }}, {{ $senior }},{{ $regular }},{{ $child }}]--}}
+{{--          --}}{{--}, {--}}
+{{--          --}}{{--name: 'Total Authorized Applicants',--}}
+{{--          --}}{{--data: [ {{ $paid_applicants }}, {{ $males_paid }}, {{ $females_paid }}, {{ $senior_paid }},{{ $regular_paid }}, {{ $teen_paid }},{{ $child_paid }}]--}}
+{{--          --}}{{--}]--}}
+{{--          --}}{{--});--}}
+{{--          --}}{{--// });--}}
+{{--          --}}{{--</script>--}}
+{{--        </div>--}}
+{{--      </div>--}}
 
     </section>
     @else
