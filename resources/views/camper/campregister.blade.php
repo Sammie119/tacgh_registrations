@@ -137,19 +137,19 @@
                                     {!! Form::label('denomination','Apostolic Member?',['class'=>'form-label required']) !!}
                                     <br>
                                     <label style="margin-left: 10px; margin-right: 5px;">
-                                        <input type="radio" value="The Apostolic Church-Ghana" class="form-check-input" name="denomination" {{ (old('denomination') == 'The Apostolic Church-Ghana') ? 'checked' : '' }}> Yes
+                                        <input type="radio" value="The Apostolic Church-Ghana" class="form-check-input hide-denomination" name="denomination" {{ (old('denomination') == 'The Apostolic Church-Ghana') ? 'checked' : '' }}> Yes
                                     </label>
                                     <label style="margin-top: 0px; margin-right: 5px;">
-                                        <input type="radio" class="form-check-input" value="2" name="denomination" {{ (old('denomination') == '2') ? 'checked' : '' }}> No
+                                        <input type="radio" class="form-check-input radio-denomination" value="2" name="denomination" {{ (old('denomination') == '2') ? 'checked' : '' }}> No
                                     </label>
                                 </div>
-                                <div class="col-md-3 {{ $errors->has('otherdenomination') ? ' has-error' : '' }}" style="margin-top:9px">
-                                    {!! Form::label('otherdenomination','Denomination',['class'=>'form-label']) !!}
-                                    <input type="text" name="otherdenomination" class="form-control" style="float:right" value="{{ (old('otherdenomination'))}}"/>
+                                <div class="col-md-3 show-other-denomination {{ $errors->has('otherdenomination') ? ' has-error' : '' }}" style="margin-top:9px; display: none">
+                                    {!! Form::label('otherdenomination','Denomination',['class'=>'form-label required']) !!}
+                                    <input type="text" name="otherdenomination" class="form-control" style="float:right" value="{{ (old('otherdenomination'))}}" required/>
                                 </div>
 
                                 <div class="col-md-3 {{ $errors->has('food_preference') ? ' has-error' : '' }}" style="margin-top:10px">
-                                    {!! Form::label('food_preference','Food Preference',['class'=>'form-label']) !!}
+                                    {!! Form::label('food_preference','Food Preference',['class'=>'form-label required']) !!}
                                     {!! Form::select('food_preference',['Choose...'=>'Choose...','Non Vegetarian'=>'Non Vegetarian', 'Vegetarian'=>'Vegetarian'],null,['class'=>'form-select','required']) !!}
                                 </div>
                             </div>
@@ -301,6 +301,20 @@
     <script>
         $(function () {
             $(".select2").select2();
+        });
+
+        $('.radio-denomination').click(function() {
+            if($('.radio-denomination').is(':checked')) {
+                $(".show-other-denomination").show();
+                // $(".show-other-denomination").attr('required', 'required');
+            }
+        });
+
+        $('.hide-denomination').click(function() {
+            if($('.hide-denomination').is(':checked')) {
+                $(".show-other-denomination").hide();
+                $(".show-other-denomination").attr('required', false);
+            }
         });
     </script>
     <script>

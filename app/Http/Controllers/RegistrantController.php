@@ -170,7 +170,8 @@ class RegistrantController extends Controller
             'gender' => 'required',
             'dob' => 'required',
             'othernationality' => 'required',//required if othernationality is not selected
-            'otherdenomination' => 'required',//required if nationality is not selected
+            'denomination' => 'required_without:otherdenomination',
+            'otherdenomination' => 'required_without:denomination|required_if:denomination,2',
 //            'foreigndel' => 'required',
             'maritalstatus' => 'required',
             'food_preference' => 'required',

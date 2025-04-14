@@ -418,12 +418,12 @@
                                                 <div class="col-md-6 {{ $errors->has('denomination') ? ' has-error' : '' }}" style="margin-top:9px">
                                                     {!! Form::label('denomination','Denomination:',['class'=>'form-label required']) !!}
                                                     <label style="margin-left: 10px; margin-right: 5px;">
-                                                        <input type="radio" value="The Apostolic Church-Ghana" class="flat-red" name="denomination" {{ ($registrant->denomination == 'The Apostolic Church-Ghana') ? 'checked' : '' }}> The Apostolic Church-Ghana
+                                                        <input type="radio" value="The Apostolic Church-Ghana" class="flat-red" name="denomination" {{ ($registrant->denomination === 'The Apostolic Church-Ghana') ? 'checked' : '' }}> The Apostolic Church-Ghana
                                                     </label>
                                                     <label style="margin-top: 0px; margin-right: 5px;">
-                                                        <input type="radio" class="flat-red" value="2" name="denomination" {{ ($registrant->denomination == '2') ? 'checked' : '' }}> Other
+                                                        <input type="radio" class="flat-red" value="2" name="denomination" {{ ($registrant->denomination !== 'The Apostolic Church-Ghana') ? 'checked' : '' }}> Other
                                                     </label>
-                                                    <input type="text" name="otherdenomination" class="form-control" style="float:right" value="{{ (old('otherdenomination'))}}"/>
+                                                    <input type="text" name="otherdenomination" class="form-control" style="float:right" value="{{ $registrant->denomination }}"/>
                                                 </div>
 {{--                                                <div class="col-md-3 {{ $errors->has('agdleader') ? ' has-error' : '' }}" style="margin-top:10px">--}}
 {{--                                                    {!! Form::label('agdleader','Are you an AGD Leader?',['class'=>'form-label']) !!}--}}
